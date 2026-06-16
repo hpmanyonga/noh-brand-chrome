@@ -1,0 +1,73 @@
+---
+/**
+ * Footer with verbatim regulatory line per noh-design-os/brand_architecture.yaml.
+ *
+ * Per HARD GATE the regulatory footer line is NEVER edited.
+ */
+
+interface Props {
+  /** Which domain we're on — drives canonical sister-domain link */
+  domain: "com" | "coza";
+}
+
+const { domain } = Astro.props;
+
+// Verbatim from noh-design-os/brand_architecture.yaml
+const regulatoryLine =
+  "Dr HP Manyonga & Associates · Women's Health · Woodmead, Johannesburg · 011 458 2497 · 066 499 2713 · info@networkonehealth.co.za · hpmanyonga.com";
+
+const year = new Date().getFullYear();
+const sisterLink =
+  domain === "com"
+    ? { label: "Network One Health (South Africa)", href: "https://hpmanyonga.co.za" }
+    : { label: "Dr H P Manyonga (clinician brand)", href: "https://hpmanyonga.com" };
+---
+
+<footer class="noh-footer">
+  <div class="noh-container">
+    <div class="noh-footer__cross-brand">
+      Also visit:
+      <a href={sisterLink.href}>{sisterLink.label}</a>
+    </div>
+
+    <p class="noh-footer__regulatory">{regulatoryLine}</p>
+
+    <p class="noh-footer__copy">
+      &copy; {year} Network One Health. All rights reserved.
+      <a href="/privacy">Privacy</a> ·
+      <a href="/terms">Terms</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .noh-footer {
+    background: var(--noh-paper);
+    color: var(--noh-ink);
+    padding: 2rem 0 2.5rem;
+    margin-top: 4rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .noh-footer__cross-brand {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .noh-footer__cross-brand a {
+    margin-left: 0.35rem;
+    color: var(--noh-green);
+  }
+  .noh-footer__regulatory {
+    margin: 0.75rem 0;
+    opacity: 0.85;
+  }
+  .noh-footer__copy {
+    margin: 0;
+    font-size: 0.78rem;
+    opacity: 0.7;
+  }
+  .noh-footer__copy a {
+    color: var(--noh-ink);
+    margin: 0 0.25rem;
+  }
+</style>

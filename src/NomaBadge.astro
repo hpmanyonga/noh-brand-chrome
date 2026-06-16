@@ -1,0 +1,46 @@
+---
+/**
+ * NomaBadge — declares which NOMA deployment model a page describes.
+ * Per Antigravity-work/00-strategy/noma-framework/.
+ */
+
+interface Props {
+  model: "direct" | "partner" | "affiliate" | "embedded";
+  size?: "sm" | "md";
+}
+
+const { model, size = "md" } = Astro.props;
+
+const meta = {
+  direct: { label: "NOMA Direct", desc: "NOH operates end-to-end" },
+  partner: { label: "NOMA Partner", desc: "NOH + hospital share execution" },
+  affiliate: { label: "NOMA Affiliate", desc: "Independent clinicians under SLA" },
+  embedded: { label: "NOMA Embedded", desc: "NOH inside a partner-owned MSO" },
+}[model];
+---
+
+<span class={`noh-noma noh-noma--${size}`} title={meta.desc}>
+  <span class="noh-noma__dot" aria-hidden="true"></span>
+  {meta.label}
+</span>
+
+<style>
+  .noh-noma {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--noh-cream);
+    color: var(--noh-green);
+    border: 1px solid var(--noh-green);
+    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .noh-noma--sm { padding: 0.15rem 0.5rem; font-size: 0.7rem; }
+  .noh-noma--md { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+  .noh-noma__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--noh-green);
+  }
+</style>

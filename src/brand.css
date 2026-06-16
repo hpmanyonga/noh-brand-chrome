@@ -1,0 +1,53 @@
+/*
+ * NOH Brand Chrome — canonical CSS variables
+ * Source of truth: ~/code/noh-design-os/02_visual_system/colors.yaml + fonts.yaml
+ * Single green rule: --noh-green (#40887D) is the only green in the system.
+ */
+
+:root {
+  /* Primary */
+  --noh-green: #40887D;
+
+  /* Accent */
+  --noh-pink: #E8A0A8;
+  --noh-pink-deep: #d3818c;
+
+  /* Grounds */
+  --noh-paper: #f3ebdf;
+  --noh-cream: #fbf6ee;
+
+  /* Neutrals */
+  --noh-ink: #211f1b;
+  --noh-soft-gray: #E9ECEB;
+  --noh-white: #FFFFFF;
+
+  /* Type */
+  --noh-font: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+  /* Rhythm */
+  --noh-space-1: 0.25rem;
+  --noh-space-2: 0.5rem;
+  --noh-space-3: 0.75rem;
+  --noh-space-4: 1rem;
+  --noh-space-6: 1.5rem;
+  --noh-space-8: 2rem;
+  --noh-space-12: 3rem;
+  --noh-space-16: 4rem;
+
+  /* Container */
+  --noh-container-max: 1100px;
+  --noh-container-pad: 1.25rem;
+}
+
+html { font-family: var(--noh-font); color: var(--noh-ink); }
+body { background: var(--noh-white); margin: 0; }
+
+a { color: var(--noh-green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.noh-container {
+  max-width: var(--noh-container-max);
+  margin: 0 auto;
+  padding-left: var(--noh-container-pad);
+  padding-right: var(--noh-container-pad);
+}

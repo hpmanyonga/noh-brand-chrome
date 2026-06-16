@@ -1,0 +1,105 @@
+---
+import BrandPill from "./BrandPill.astro";
+
+interface Props {
+  /** Which domain we're on — drives brand pill direction and primary logo wording */
+  domain: "com" | "coza";
+  /** Content type — drives which brand is "front" per noh-design-os HARD GATE */
+  contentType?: "gynaecology" | "maternity" | "corporate";
+  /** Optional nav items */
+  nav?: { label: string; href: string }[];
+  /** Home href — defaults to "/" */
+  home?: string;
+}
+
+const {
+  domain,
+  contentType = "corporate",
+  nav = [],
+  home = "/",
+} = Astro.props;
+
+const frontBrand =
+  contentType === "gynaecology"
+    ? { name: "Dr HP Manyonga & Associates", sub: "Managed by Network One Health" }
+    : contentType === "maternity"
+      ? { name: "Network One Health", sub: "Maternity Care" }
+      : domain === "com"
+        ? { name: "Dr H P Manyonga", sub: "Clinician · Founder, Network One Health" }
+        : { name: "Network One Health", sub: "Coordinated maternal & women's health" };
+---
+
+<header class="noh-header">
+  <div class="noh-container noh-header__inner">
+    <a class="noh-header__brand" href={home}>
+      <span class="noh-header__brand-name">{frontBrand.name}</span>
+      <span class="noh-header__brand-sub">{frontBrand.sub}</span>
+    </a>
+
+    <div class="noh-header__right">
+      <BrandPill domain={domain} />
+      {nav.length > 0 && (
+        <nav class="noh-header__nav" aria-label="Primary">
+          {nav.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </nav>
+      )}
+    </div>
+  </div>
+</header>
+
+<style>
+  .noh-header {
+    background: var(--noh-white);
+    border-bottom: 1px solid var(--noh-soft-gray);
+    padding: 0.85rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .noh-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .noh-header__brand {
+    display: flex;
+    flex-direction: column;
+    color: var(--noh-ink);
+    text-decoration: none;
+    line-height: 1.15;
+  }
+  .noh-header__brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--noh-green);
+  }
+  .noh-header__brand-sub {
+    font-size: 0.72rem;
+    color: var(--noh-ink);
+    opacity: 0.7;
+    font-weight: 500;
+    margin-top: 1px;
+  }
+  .noh-header__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .noh-header__nav {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .noh-header__nav a {
+    color: var(--noh-ink);
+  }
+  @media (max-width: 640px) {
+    .noh-header__brand-sub { display: none; }
+  }
+</style>

@@ -1,0 +1,29 @@
+{
+  "name": "@noh/brand-chrome",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared brand chrome (header, footer, CSS variables, NOMA badges) for the Network One Health web estate.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    "./Header.astro": "./src/Header.astro",
+    "./Footer.astro": "./src/Footer.astro",
+    "./BrandPill.astro": "./src/BrandPill.astro",
+    "./NomaBadge.astro": "./src/NomaBadge.astro",
+    "./BaseLayout.astro": "./src/BaseLayout.astro",
+    "./brand.css": "./src/brand.css",
+    "./reset.css": "./src/reset.css"
+  },
+  "files": [
+    "src",
+    "assets"
+  ],
+  "peerDependencies": {
+    "astro": "^4.0.0 || ^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hpmanyonga/noh-brand-chrome.git"
+  },
+  "license": "UNLICENSED"
+}

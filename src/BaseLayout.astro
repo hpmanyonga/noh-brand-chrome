@@ -1,0 +1,68 @@
+---
+/**
+ * BaseLayout — the default page shell for every NOH site.
+ * Applies brand CSS, renders Header + Footer with the right domain context,
+ * sets head meta, slot for page content.
+ */
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import "./reset.css";
+import "./brand.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  domain: "com" | "coza";
+  contentType?: "gynaecology" | "maternity" | "corporate";
+  /** Optional canonical URL */
+  canonical?: string;
+  /** Optional hreflang sister URL on the other domain */
+  hreflangSister?: { href: string; lang: string };
+  /** Optional nav for header */
+  nav?: { label: string; href: string }[];
+  /** Optional OG image URL */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "Network One Health — coordinated maternal and women's health care.",
+  domain,
+  contentType = "corporate",
+  canonical,
+  hreflangSister,
+  nav = [],
+  ogImage,
+} = Astro.props;
+
+const lang = domain === "coza" ? "en-ZA" : "en";
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {hreflangSister && (
+      <link rel="alternate" hreflang={hreflangSister.lang} href={hreflangSister.href} />
+    )}
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <Header domain={domain} contentType={contentType} nav={nav} />
+    <main>
+      <slot />
+    </main>
+    <Footer domain={domain} />
+  </body>
+</html>
