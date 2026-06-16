@@ -1,8 +1,8 @@
 ---
 /**
- * BaseLayout — the default page shell for every NOH site.
- * Applies brand CSS, renders Header + Footer with the right domain context,
- * sets head meta, slot for page content.
+ * BaseLayout — default page shell for every NOH site.
+ * Applies brand CSS, Inter from Google Fonts, renders Header + Footer
+ * with the right domain + compliance context.
  */
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
@@ -13,7 +13,13 @@ interface Props {
   title: string;
   description?: string;
   domain: "com" | "coza";
-  contentType?: "gynaecology" | "maternity" | "corporate";
+  /** Content positioning hint — does NOT change brand chrome (PDF B1) */
+  contentType?: "systems" | "clinical" | "subbrand";
+  /** True when this page carries regulated clinical content
+      (then footer adds the compliance attribution per PDF B9) */
+  compliance?: boolean;
+  /** HPCSA practice number to inject into the compliance line */
+  hpcsaPR?: string;
   /** Optional canonical URL */
   canonical?: string;
   /** Optional hreflang sister URL on the other domain */
@@ -28,7 +34,9 @@ const {
   title,
   description = "Network One Health — coordinated maternal and women's health care.",
   domain,
-  contentType = "corporate",
+  contentType,
+  compliance = false,
+  hpcsaPR,
   canonical,
   hreflangSister,
   nav = [],
@@ -50,6 +58,14 @@ const lang = domain === "coza" ? "en-ZA" : "en";
       <link rel="alternate" hreflang={hreflangSister.lang} href={hreflangSister.href} />
     )}
 
+    <!-- Inter (digital typography per PDF B5) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -63,6 +79,6 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <main>
       <slot />
     </main>
-    <Footer domain={domain} />
+    <Footer domain={domain} compliance={compliance} hpcsaPR={hpcsaPR} />
   </body>
 </html>

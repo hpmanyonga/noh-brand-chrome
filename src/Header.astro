@@ -1,43 +1,47 @@
 ---
+/**
+ * NOH Header — Network One Health ALWAYS leads (PDF B1 hard rule).
+ *
+ * Practice name ("Dr HP Manyonga and Associates Inc.") appears ONLY in the
+ * compliance footer — never in chrome or hero copy.
+ *
+ * The `contentType` prop drives downstream page content positioning
+ * (e.g. tone, image rules), not who is named in the header.
+ */
 import BrandPill from "./BrandPill.astro";
 
 interface Props {
-  /** Which domain we're on — drives brand pill direction and primary logo wording */
+  /** Which domain we're on — drives brand pill direction */
   domain: "com" | "coza";
-  /** Content type — drives which brand is "front" per noh-design-os HARD GATE */
-  contentType?: "gynaecology" | "maternity" | "corporate";
+  /** Content positioning — does NOT change the chrome brand */
+  contentType?: "systems" | "clinical" | "subbrand";
   /** Optional nav items */
   nav?: { label: string; href: string }[];
   /** Home href — defaults to "/" */
   home?: string;
 }
 
-const {
-  domain,
-  contentType = "corporate",
-  nav = [],
-  home = "/",
-} = Astro.props;
-
-const frontBrand =
-  contentType === "gynaecology"
-    ? { name: "Dr HP Manyonga & Associates", sub: "Managed by Network One Health" }
-    : contentType === "maternity"
-      ? { name: "Network One Health", sub: "Maternity Care" }
-      : domain === "com"
-        ? { name: "Dr H P Manyonga", sub: "Clinician · Founder, Network One Health" }
-        : { name: "Network One Health", sub: "Coordinated maternal & women's health" };
+const { domain, nav = [], home = "/" } = Astro.props;
 ---
 
 <header class="noh-header">
   <div class="noh-container noh-header__inner">
-    <a class="noh-header__brand" href={home}>
-      <span class="noh-header__brand-name">{frontBrand.name}</span>
-      <span class="noh-header__brand-sub">{frontBrand.sub}</span>
+    <a class="noh-header__brand" href={home} aria-label="Network One Health home">
+      <img
+        src="https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-logo.png"
+        alt="Network One Health"
+        class="noh-header__logo"
+        width="36"
+        height="36"
+        loading="eager"
+      />
+      <span class="noh-header__brand-text">
+        <span class="noh-header__brand-name">Network One Health</span>
+        <span class="noh-header__brand-sub">Coordinated maternal &amp; women's health</span>
+      </span>
     </a>
 
     <div class="noh-header__right">
-      <BrandPill domain={domain} />
       {nav.length > 0 && (
         <nav class="noh-header__nav" aria-label="Primary">
           {nav.map((item) => (
@@ -45,6 +49,7 @@ const frontBrand =
           ))}
         </nav>
       )}
+      <BrandPill domain={domain} />
     </div>
   </div>
 </header>
@@ -67,20 +72,28 @@ const frontBrand =
   }
   .noh-header__brand {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
     color: var(--noh-ink);
     text-decoration: none;
     line-height: 1.15;
   }
+  .noh-header__brand:hover { text-decoration: none; }
+  .noh-header__logo {
+    display: block;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .noh-header__brand-text { display: flex; flex-direction: column; }
   .noh-header__brand-name {
     font-weight: 700;
     font-size: 1.05rem;
-    color: var(--noh-green);
+    color: var(--noh-teal);
+    letter-spacing: -0.01em;
   }
   .noh-header__brand-sub {
     font-size: 0.72rem;
-    color: var(--noh-ink);
-    opacity: 0.7;
+    color: var(--noh-muted);
     font-weight: 500;
     margin-top: 1px;
   }
@@ -96,9 +109,8 @@ const frontBrand =
     font-size: 0.9rem;
     font-weight: 600;
   }
-  .noh-header__nav a {
-    color: var(--noh-ink);
-  }
+  .noh-header__nav a { color: var(--noh-ink); }
+  .noh-header__nav a:hover { color: var(--noh-teal); }
   @media (max-width: 640px) {
     .noh-header__brand-sub { display: none; }
   }

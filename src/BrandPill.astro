@@ -1,23 +1,19 @@
 ---
 /**
- * BrandPill — small cross-brand link at top of every page.
+ * BrandPill — small cross-domain link in the header.
  *
- * Per noh-design-os/brand_architecture.yaml (HARD GATE):
- *   - gynaecology content → front brand = "Dr HP Manyonga & Associates",
- *     managing = "Network One Health" (label: "Managed by Network One Health")
- *   - maternity content → front brand = "Network One Health",
- *     secondary = "Dr HP Manyonga & Associates" (regulatory)
+ * Per PDF B1: Network One Health leads everywhere. This pill is navigation
+ * to the sister domain — does NOT name the practice (practice name lives in
+ * the compliance footer only).
  *
- * On hpmanyonga.com pages this surfaces the NOH operating link.
- * On hpmanyonga.co.za pages this surfaces the clinician credential link.
+ * On .com we surface the ZA service site. On .co.za we surface the
+ * clinician brand. The cross-domain bridge is the "elegant non-disruptive"
+ * link the brand owner asked for.
  */
 
 interface Props {
-  /** Which domain we're rendering on — determines pill direction */
   domain: "com" | "coza";
-  /** Optional override for label */
   label?: string;
-  /** Optional override for target href */
   href?: string;
 }
 
@@ -25,11 +21,11 @@ const { domain, label, href } = Astro.props;
 
 const defaults = {
   com: {
-    label: "Operating as Network One Health in South Africa",
+    label: "Visit NOH South Africa",
     href: "https://hpmanyonga.co.za",
   },
   coza: {
-    label: "Founded by Dr H P Manyonga",
+    label: "About Dr HP Manyonga",
     href: "https://hpmanyonga.com/about",
   },
 };
@@ -38,7 +34,7 @@ const pillLabel = label ?? defaults[domain].label;
 const pillHref = href ?? defaults[domain].href;
 ---
 
-<a class="noh-brand-pill" href={pillHref} aria-label={pillLabel}>
+<a class="noh-brand-pill" href={pillHref}>
   <span class="noh-brand-pill__label">{pillLabel}</span>
   <span class="noh-brand-pill__arrow" aria-hidden="true">→</span>
 </a>
@@ -48,22 +44,19 @@ const pillHref = href ?? defaults[domain].href;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: var(--noh-cream);
-    color: var(--noh-ink);
-    border: 1px solid var(--noh-green);
+    background: transparent;
+    color: var(--noh-teal);
+    border: 1px solid var(--noh-teal);
     border-radius: 999px;
-    padding: 0.25rem 0.75rem;
+    padding: 0.3rem 0.8rem;
     font-size: 0.78rem;
     font-weight: 600;
     text-decoration: none;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, color 0.15s ease;
   }
   .noh-brand-pill:hover {
-    background: var(--noh-green);
-    color: var(--noh-cream);
+    background: var(--noh-teal);
+    color: var(--noh-white);
     text-decoration: none;
-  }
-  .noh-brand-pill__arrow {
-    font-weight: 700;
   }
 </style>

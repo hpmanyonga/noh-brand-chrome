@@ -1,25 +1,36 @@
 # CLAUDE.md — noh-brand-chrome
 
-This is the Astro/CSS implementation of the NOH brand. The RULES live in `~/code/noh-design-os/` — read those before changing tokens here.
+Astro/CSS implementation of the NOH brand.
 
-## HARD GATE
+## Canonical source (LOCKED · DO NOT EDIT)
 
-- The footer regulatory line in `src/Footer.astro` is verbatim per `noh-design-os/brand_architecture.yaml`. Do not edit wording.
-- Green is `#40887D` only. There is no second green tone.
-- Font is Arial only.
+**`OneDrive-NetworkOneHealth/Academy and Professional Dev_NEW/30-templates/brand/2026-05-15_brand-system_universal_v1.0.pdf`**
+
+This is the global Brand System v1.0, status "Approved · Global guide · LOCKED". Every token, rule, and verbatim line in this package traces back to that PDF. Where the older `~/code/noh-design-os/02_visual_system/colors.yaml` disagrees with the PDF, **the PDF wins**.
+
+## HARD RULES (PDF B1, B9)
+
+1. **Network One Health ALWAYS leads.** In headers, hero copy, page titles, and anywhere visible to users, NOH is the front brand. The practice name "Dr HP Manyonga and Associates Inc." appears ONLY in the compliance footer — never in chrome or hero.
+2. **The compliance footer line is verbatim:** "A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. HPCSA PR[xxx]." Inject the actual HPCSA number via the `hpcsaPR` prop; don't edit any other wording.
+3. **Colours are locked:** teal `#40887D` (primary), green `#599692` (secondary, used for the footer strip), dusty pink `#F5B3B9` (accent). No additional palette colours without HP sign-off.
+4. **Typography:** Inter for digital surfaces (web), Arial for documents.
+5. **Footer chrome:** green (`#599692`) strip with white text, 3-item layout (email / phone / website).
 
 ## When to bump version
 
-Any time you change a component or token, bump `package.json` `version` and push. Consumer sites pull via `npm update @noh/brand-chrome`.
+Any token/component change → bump `package.json` `version`, push. Consumer sites run `npm update @noh/brand-chrome && git push` to pick up.
 
 ## Components
 
 | File | Purpose |
 |---|---|
-| `src/BaseLayout.astro` | Default page shell — head meta, header + footer wired |
-| `src/Header.astro` | Sticky brand header with content-type-aware front brand |
-| `src/Footer.astro` | Footer with verbatim regulatory line + cross-brand link |
-| `src/BrandPill.astro` | Small cross-domain link, top of header |
-| `src/NomaBadge.astro` | Declares NOMA deployment model on a page |
-| `src/brand.css` | CSS variables (single source from colors.yaml + fonts.yaml) |
-| `src/reset.css` | Minimal modern CSS reset |
+| `src/BaseLayout.astro` | Default page shell — head meta, Inter font, header + footer wired |
+| `src/Header.astro` | NOH-led header (logo + name + subline + cross-domain pill) |
+| `src/Footer.astro` | Green-strip footer; optional verbatim compliance line for regulated content |
+| `src/BrandPill.astro` | Small cross-domain link to the sister surface |
+| `src/NomaBadge.astro` | Declares NOMA deployment model (Direct/Partner/Affiliate/Embedded) |
+| `src/brand.css` | CSS variables (single source from PDF v1.0) |
+| `src/reset.css` | Minimal modern reset |
+| `assets/noh-logo.png` | Canonical NOH transparent logo (1254×1254) |
+| `assets/noh-monogram.png` | NOH monogram variant |
+| `assets/hpma-logo.png` | Dr HP Manyonga & Associates square logo (for use in compliance contexts only) |

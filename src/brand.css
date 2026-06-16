@@ -1,28 +1,32 @@
 /*
  * NOH Brand Chrome — canonical CSS variables
- * Source of truth: ~/code/noh-design-os/02_visual_system/colors.yaml + fonts.yaml
- * Single green rule: --noh-green (#40887D) is the only green in the system.
+ * Source of truth: OneDrive-NetworkOneHealth/Academy and Professional Dev_NEW/
+ *                  30-templates/brand/2026-05-15_brand-system_universal_v1.0.pdf
+ * Status: LOCKED · DO NOT EDIT (per PDF page 1)
+ *
+ * Hard rules (PDF B1, B2, B5):
+ *   - Brand hierarchy: Network One Health ALWAYS leads. Practice name
+ *     ("Dr HP Manyonga and Associates Inc.") appears ONLY in the compliance
+ *     footer — never in hero copy or chrome.
+ *   - Colours: primary teal #40887D, secondary green #599692, dusty pink #F5B3B9.
+ *     No additional palette colours without HP sign-off.
+ *   - Typography: Inter for digital (this is the web), Arial for documents.
  */
 
 :root {
-  /* Primary */
-  --noh-green: #40887D;
-
-  /* Accent */
-  --noh-pink: #E8A0A8;
-  --noh-pink-deep: #d3818c;
-
-  /* Grounds */
-  --noh-paper: #f3ebdf;
-  --noh-cream: #fbf6ee;
+  /* Primary palette (PDF B2) */
+  --noh-teal: #40887D;          /* primary — headings, buttons, brand accents */
+  --noh-green: #599692;         /* secondary — contrast accents, footer strip */
+  --noh-pink: #F5B3B9;          /* accent — supporting, maternity-facing */
 
   /* Neutrals */
-  --noh-ink: #211f1b;
-  --noh-soft-gray: #E9ECEB;
-  --noh-white: #FFFFFF;
+  --noh-white: #FFFFFF;         /* warm off-white / paper tone */
+  --noh-ink: #1A1A1A;           /* body text (not pure black) */
+  --noh-soft-gray: #E9ECEB;     /* borders, dividers */
+  --noh-muted: #6b7280;         /* secondary text */
 
-  /* Type */
-  --noh-font: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  /* Type (PDF B5) — Inter for digital */
+  --noh-font: "Inter", Arial, "Helvetica Neue", Helvetica, sans-serif;
 
   /* Rhythm */
   --noh-space-1: 0.25rem;
@@ -39,10 +43,20 @@
   --noh-container-pad: 1.25rem;
 }
 
-html { font-family: var(--noh-font); color: var(--noh-ink); }
-body { background: var(--noh-white); margin: 0; }
+html {
+  font-family: var(--noh-font);
+  color: var(--noh-ink);
+  -webkit-font-smoothing: antialiased;
+}
+body { background: var(--noh-white); margin: 0; line-height: 1.5; }
 
-a { color: var(--noh-green); text-decoration: none; }
+h1, h2, h3, h4, h5, h6 {
+  color: var(--noh-teal);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--noh-teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .noh-container {

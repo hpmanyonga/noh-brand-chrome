@@ -1,39 +1,65 @@
 ---
 /**
- * Footer with verbatim regulatory line per noh-design-os/brand_architecture.yaml.
+ * NOH Footer (PDF B9).
  *
- * Per HARD GATE the regulatory footer line is NEVER edited.
+ * Standard footer = teal/green strip, white text, 3 items:
+ *   info@networkonehealth.co.za, 066 499 2713, www.networkonehealth.co.za
+ *
+ * Compliance footer line (verbatim, only when `compliance` is true,
+ * i.e. on regulated clinical content):
+ *   "A service of Network One Health. Clinical services provided by
+ *    Dr HP Manyonga and Associates Inc. HPCSA PR[xxx]."
+ *
+ * Cross-brand link (the "elegant, non-disruptive" link to the sister domain)
+ * sits as a sub-link inside the strip.
  */
 
 interface Props {
-  /** Which domain we're on — drives canonical sister-domain link */
+  /** Which domain we're on — drives cross-domain link wording */
   domain: "com" | "coza";
+  /** Add the regulated-content compliance attribution line */
+  compliance?: boolean;
+  /** HPCSA practice number to inject into compliance line (if known) */
+  hpcsaPR?: string;
 }
 
-const { domain } = Astro.props;
-
-// Verbatim from noh-design-os/brand_architecture.yaml
-const regulatoryLine =
-  "Dr HP Manyonga & Associates · Women's Health · Woodmead, Johannesburg · 011 458 2497 · 066 499 2713 · info@networkonehealth.co.za · hpmanyonga.com";
+const { domain, compliance = false, hpcsaPR } = Astro.props;
 
 const year = new Date().getFullYear();
-const sisterLink =
+
+// PDF B9 compliance footer — verbatim except for the PR number injection
+const complianceLine = `A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. HPCSA PR[${hpcsaPR ?? "xxx"}].`;
+
+const sister =
   domain === "com"
-    ? { label: "Network One Health (South Africa)", href: "https://hpmanyonga.co.za" }
-    : { label: "Dr H P Manyonga (clinician brand)", href: "https://hpmanyonga.com" };
+    ? { label: "Network One Health (SA)", href: "https://hpmanyonga.co.za" }
+    : { label: "Dr Howard P Manyonga", href: "https://hpmanyonga.com" };
 ---
 
 <footer class="noh-footer">
-  <div class="noh-container">
-    <div class="noh-footer__cross-brand">
-      Also visit:
-      <a href={sisterLink.href}>{sisterLink.label}</a>
+  <div class="noh-footer__strip">
+    <div class="noh-container noh-footer__strip-inner">
+      <ul class="noh-footer__contacts">
+        <li>
+          <a href="mailto:info@networkonehealth.co.za">info@networkonehealth.co.za</a>
+        </li>
+        <li>
+          <a href="tel:+27664992713">066 499 2713</a>
+        </li>
+        <li>
+          <a href="https://www.networkonehealth.co.za">www.networkonehealth.co.za</a>
+        </li>
+      </ul>
+      <a class="noh-footer__sister" href={sister.href}>
+        Also visit: <strong>{sister.label}</strong> →
+      </a>
     </div>
+  </div>
 
-    <p class="noh-footer__regulatory">{regulatoryLine}</p>
-
+  <div class="noh-footer__base noh-container">
+    {compliance && <p class="noh-footer__compliance">{complianceLine}</p>}
     <p class="noh-footer__copy">
-      &copy; {year} Network One Health. All rights reserved.
+      &copy; {year} Network One Health.
       <a href="/privacy">Privacy</a> ·
       <a href="/terms">Terms</a>
     </p>
@@ -42,32 +68,49 @@ const sisterLink =
 
 <style>
   .noh-footer {
-    background: var(--noh-paper);
-    color: var(--noh-ink);
-    padding: 2rem 0 2.5rem;
     margin-top: 4rem;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     line-height: 1.6;
   }
-  .noh-footer__cross-brand {
-    margin-bottom: 0.75rem;
-    font-weight: 600;
+  .noh-footer__strip {
+    background: var(--noh-green);
+    color: var(--noh-white);
+    padding: 1.5rem 0;
   }
-  .noh-footer__cross-brand a {
-    margin-left: 0.35rem;
-    color: var(--noh-green);
+  .noh-footer__strip a { color: var(--noh-white); text-decoration: none; }
+  .noh-footer__strip a:hover { text-decoration: underline; }
+  .noh-footer__strip-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
   }
-  .noh-footer__regulatory {
-    margin: 0.75rem 0;
-    opacity: 0.85;
-  }
-  .noh-footer__copy {
+  .noh-footer__contacts {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: 0.78rem;
-    opacity: 0.7;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-weight: 500;
   }
-  .noh-footer__copy a {
-    color: var(--noh-ink);
-    margin: 0 0.25rem;
+  .noh-footer__sister {
+    font-weight: 500;
+    opacity: 0.95;
+  }
+  .noh-footer__base {
+    padding: 1.25rem 0 2rem;
+    color: var(--noh-muted);
+    font-size: 0.78rem;
+  }
+  .noh-footer__compliance {
+    margin: 0 0 0.5rem;
+    font-style: italic;
+  }
+  .noh-footer__copy { margin: 0; }
+  .noh-footer__copy a { color: var(--noh-muted); margin: 0 0.25rem; }
+  @media (max-width: 640px) {
+    .noh-footer__strip-inner { flex-direction: column; align-items: flex-start; }
   }
 </style>
