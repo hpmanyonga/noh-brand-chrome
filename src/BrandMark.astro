@@ -1,0 +1,52 @@
+---
+/**
+ * BrandMark — convenience component for surfacing the canonical NOH lockup
+ * outside the header. Use in hero banners, splash sections, footers, etc.
+ *
+ * Variants pull from the canonical assets in this repo (served via jsDelivr).
+ *
+ * Variants:
+ *   - "colour" (default) — full lockup on light backgrounds
+ *   - "white" — full lockup on dark/teal/green backgrounds
+ *   - "black" — full lockup, mono
+ *   - "grayscale" — desaturated mono
+ *   - "mark-colour" — symbol only (square)
+ *   - "mark-white" — symbol only on dark
+ */
+
+interface Props {
+  variant?: "colour" | "white" | "black" | "grayscale" | "mark-colour" | "mark-white";
+  width?: number | string;
+  height?: number | string;
+  alt?: string;
+  loading?: "eager" | "lazy";
+}
+
+const {
+  variant = "colour",
+  width = 200,
+  height,
+  alt = "Network One Health",
+  loading = "lazy",
+} = Astro.props;
+
+const src = `https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-${variant}.svg`;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  class="noh-brand-mark"
+/>
+
+<style>
+  .noh-brand-mark {
+    display: inline-block;
+    object-fit: contain;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

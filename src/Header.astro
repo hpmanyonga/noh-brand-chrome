@@ -2,18 +2,20 @@
 /**
  * NOH Header — Network One Health ALWAYS leads (PDF B1 hard rule).
  *
- * Practice name ("Dr HP Manyonga and Associates Inc.") appears ONLY in the
+ * Practice name "Dr HP Manyonga and Associates Inc." appears ONLY in the
  * compliance footer — never in chrome or hero copy.
  *
- * The `contentType` prop drives downstream page content positioning
- * (e.g. tone, image rules), not who is named in the header.
+ * Logos: uses the canonical NOH mark (just the symbol) at small sizes for
+ * crisp display. The full lockup `noh-colour.svg` is preferred for hero
+ * banners and footers; use it via the BrandMark component or directly
+ * by URL: cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-colour.svg
  */
 import BrandPill from "./BrandPill.astro";
 
 interface Props {
-  /** Which domain we're on — drives brand pill direction */
+  /** Which domain we're on — drives BrandPill direction */
   domain: "com" | "coza";
-  /** Content positioning — does NOT change the chrome brand */
+  /** Content positioning hint — does NOT change brand chrome */
   contentType?: "systems" | "clinical" | "subbrand";
   /** Optional nav items */
   nav?: { label: string; href: string }[];
@@ -22,17 +24,19 @@ interface Props {
 }
 
 const { domain, nav = [], home = "/" } = Astro.props;
+
+const markUrl = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-mark-colour.svg";
 ---
 
 <header class="noh-header">
   <div class="noh-container noh-header__inner">
     <a class="noh-header__brand" href={home} aria-label="Network One Health home">
       <img
-        src="https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-logo.png"
-        alt="Network One Health"
-        class="noh-header__logo"
-        width="36"
-        height="36"
+        src={markUrl}
+        alt=""
+        class="noh-header__mark"
+        width="40"
+        height="40"
         loading="eager"
       />
       <span class="noh-header__brand-text">
@@ -73,13 +77,13 @@ const { domain, nav = [], home = "/" } = Astro.props;
   .noh-header__brand {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.7rem;
     color: var(--noh-ink);
     text-decoration: none;
     line-height: 1.15;
   }
   .noh-header__brand:hover { text-decoration: none; }
-  .noh-header__logo {
+  .noh-header__mark {
     display: block;
     object-fit: contain;
     flex-shrink: 0;
