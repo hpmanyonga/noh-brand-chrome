@@ -11,7 +11,7 @@ This is the global Brand System v1.0, status "Approved · Global guide · LOCKED
 ## HARD RULES (PDF B1, B9)
 
 1. **Network One Health ALWAYS leads.** In headers, hero copy, page titles, and anywhere visible to users, NOH is the front brand. The practice name "Dr HP Manyonga and Associates Inc." appears ONLY in the compliance footer — never in chrome or hero.
-2. **The compliance footer line is verbatim:** "A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. HPCSA PR[xxx]." Inject the actual HPCSA number via the `hpcsaPR` prop; don't edit any other wording.
+2. **The compliance footer line:** "A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. Practice No. 0977357." Inject the practice number via the `hpcsaPR` prop (name kept for backwards compatibility); don't edit any other wording. NOTE: the accountable practice is identified by its **Practice Number**, never an "HPCSA PR"/MP number — HP practice-number rule (2026-05-26) overrides the older "HPCSA PR[xxx]" wording in the LOCKED brand PDF.
 3. **Colours are locked:** teal `#40887D` (primary), green `#599692` (secondary, used for the footer strip), dusty pink `#F5B3B9` (accent). No additional palette colours without HP sign-off.
 4. **Typography:** Inter for digital surfaces (web), Arial for documents.
 5. **Footer chrome:** green (`#599692`) strip with white text, 3-item layout (email / phone / website).

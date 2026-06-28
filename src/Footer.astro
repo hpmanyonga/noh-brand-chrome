@@ -5,10 +5,12 @@
  * Standard footer = teal/green strip, white text, 3 items:
  *   info@networkonehealth.co.za, 066 499 2713, www.networkonehealth.co.za
  *
- * Compliance footer line (verbatim, only when `compliance` is true,
- * i.e. on regulated clinical content):
+ * Compliance footer line (only when `compliance` is true, i.e. on regulated
+ * clinical content). The accountable practice is identified by its Practice
+ * Number — NOT an "HPCSA PR" number (HP practice-number rule, 2026-05-26,
+ * overrides the brand PDF's older wording):
  *   "A service of Network One Health. Clinical services provided by
- *    Dr HP Manyonga and Associates Inc. HPCSA PR[xxx]."
+ *    Dr HP Manyonga and Associates Inc. Practice No. 0977357."
  *
  * Cross-brand link (the "elegant, non-disruptive" link to the sister domain)
  * sits as a sub-link inside the strip.
@@ -19,7 +21,8 @@ interface Props {
   domain: "com" | "coza";
   /** Add the regulated-content compliance attribution line */
   compliance?: boolean;
-  /** HPCSA practice number to inject into compliance line (if known) */
+  /** Practice number to inject into the compliance line (if known).
+      Prop name kept as `hpcsaPR` for backwards compatibility. */
   hpcsaPR?: string;
 }
 
@@ -27,8 +30,8 @@ const { domain, compliance = false, hpcsaPR } = Astro.props;
 
 const year = new Date().getFullYear();
 
-// PDF B9 compliance footer — verbatim except for the PR number injection
-const complianceLine = `A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. HPCSA PR[${hpcsaPR ?? "xxx"}].`;
+// Compliance footer — practice number, no "HPCSA PR" prefix (HP rule 2026-05-26)
+const complianceLine = `A service of Network One Health. Clinical services provided by Dr HP Manyonga and Associates Inc. Practice No. ${hpcsaPR ?? "xxxxxxx"}.`;
 
 const sister =
   domain === "com"
