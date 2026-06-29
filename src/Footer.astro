@@ -7,11 +7,11 @@
  *
  * Compliance footer line (only when `compliance` is true, i.e. on regulated
  * clinical content). The practice is identified by its Practice Number, NOT an
- * "HPCSA PR" number (HP rule 2026-05-26). The practice is named as the developer
- * of the binding clinical protocols, not necessarily the service provider
- * (HP rule 2026-06-29):
- *   "A service of Network One Health. Clinical protocols developed by
- *    Dr H P Manyonga & Associates Inc. Practice No. 0977357."
+ * "HPCSA PR" number (HP rule 2026-05-26). The practice supplies clinical
+ * protocols and technical expertise, not necessarily the service (HP rule
+ * 2026-06-29):
+ *   "A service of Network One Health. Clinical protocols and technical
+ *    expertise provided by Dr H P Manyonga & Associates Inc. Practice No. 0977357."
  *
  * Cross-brand link (the "elegant, non-disruptive" link to the sister domain)
  * sits as a sub-link inside the strip.
@@ -31,10 +31,11 @@ const { domain, compliance = false, hpcsaPR } = Astro.props;
 
 const year = new Date().getFullYear();
 
-// Compliance footer. "Clinical protocols developed by" (not "services provided
-// by"): NOH may not always provide the service, but its clinical protocols are
-// binding for any team in the network. Practice number, no "HPCSA PR" prefix.
-const complianceLine = `A service of Network One Health. Clinical protocols developed by Dr H P Manyonga & Associates Inc. Practice No. ${hpcsaPR ?? "xxxxxxx"}.`;
+// Compliance footer. The practice supplies clinical protocols and technical
+// expertise, NOT necessarily the clinical service: NOH may not provide the
+// service, but its protocols are binding for any team in the network. Practice
+// number, no "HPCSA PR" prefix.
+const complianceLine = `A service of Network One Health. Clinical protocols and technical expertise provided by Dr H P Manyonga & Associates Inc. Practice No. ${hpcsaPR ?? "xxxxxxx"}.`;
 
 const sister =
   domain === "com"
