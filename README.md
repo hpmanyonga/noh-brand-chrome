@@ -4,9 +4,11 @@ Shared brand chrome for the Network One Health web estate.
 
 ## Canonical source
 
-LOCKED · DO NOT EDIT — `OneDrive-NetworkOneHealth/Academy and Professional Dev_NEW/30-templates/brand/2026-05-15_brand-system_universal_v1.0.pdf`
+LOCKED · DO NOT EDIT — `OneDrive-NetworkOneHealth/Branding/01-brand-guide/2026-05-15_brand-system_noh_v1.0.pdf`
 
 This package is the CODE implementation. The PDF is the RULE source. Every token traces to the PDF.
+The full design system (tokens, UI kits, content-ops) is the canonical `network-one-design` skill at
+`~/.claude/skills/network-one-design/`; this npm package is the web-component slice of it.
 
 ## Install
 

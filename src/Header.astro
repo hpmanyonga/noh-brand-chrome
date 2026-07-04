@@ -21,18 +21,35 @@ interface Props {
   nav?: { label: string; href: string }[];
   /** Home href — defaults to "/" */
   home?: string;
+  /** Which brand leads the header. "noh" (default) or "practice"
+      (the clinician-owned provider estate: hpmanyonga.co.za + join.). */
+  lead?: "noh" | "practice";
 }
 
-const { domain, nav = [], home = "/" } = Astro.props;
+const { domain, nav = [], home = "/", lead = "noh" } = Astro.props;
 
-const markUrl = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-mark-colour.svg";
+const CDN = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets";
+const brand =
+  lead === "practice"
+    ? {
+        mark: `${CDN}/hpma-colour.png`,
+        name: "Dr H P Manyonga & Associates",
+        sub: "The Network One Health provider network",
+        aria: "Dr H P Manyonga & Associates home",
+      }
+    : {
+        mark: `${CDN}/noh-mark-colour.svg`,
+        name: "Network One Health",
+        sub: "Coordinated maternal & women's health",
+        aria: "Network One Health home",
+      };
 ---
 
 <header class="noh-header">
   <div class="noh-container noh-header__inner">
-    <a class="noh-header__brand" href={home} aria-label="Network One Health home">
+    <a class="noh-header__brand" href={home} aria-label={brand.aria}>
       <img
-        src={markUrl}
+        src={brand.mark}
         alt=""
         class="noh-header__mark"
         width="40"
@@ -40,8 +57,8 @@ const markUrl = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/as
         loading="eager"
       />
       <span class="noh-header__brand-text">
-        <span class="noh-header__brand-name">Network One Health</span>
-        <span class="noh-header__brand-sub">Coordinated maternal &amp; women's health</span>
+        <span class="noh-header__brand-name">{brand.name}</span>
+        <span class="noh-header__brand-sub">{brand.sub}</span>
       </span>
     </a>
 

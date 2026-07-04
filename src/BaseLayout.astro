@@ -28,6 +28,8 @@ interface Props {
   nav?: { label: string; href: string }[];
   /** Optional OG image URL */
   ogImage?: string;
+  /** Which brand leads the header. "noh" (default) or "practice". */
+  lead?: "noh" | "practice";
 }
 
 const {
@@ -41,6 +43,7 @@ const {
   hreflangSister,
   nav = [],
   ogImage,
+  lead = "noh",
 } = Astro.props;
 
 const lang = domain === "coza" ? "en-ZA" : "en";
@@ -75,7 +78,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <slot name="head" />
   </head>
   <body>
-    <Header domain={domain} contentType={contentType} nav={nav} />
+    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} />
     <main>
       <slot />
     </main>
