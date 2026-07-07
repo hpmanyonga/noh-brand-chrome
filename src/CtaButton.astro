@@ -7,7 +7,8 @@
 
 interface Props {
   href: string;
-  variant?: "primary" | "ghost";
+  /** primary = teal; inverse = white (for teal/dark bands); ghost = outline. */
+  variant?: "primary" | "inverse" | "ghost";
   /** External links (forms, WhatsApp) open in a new tab. */
   external?: boolean;
 }
@@ -39,6 +40,11 @@ const { href, variant = "primary", external = false } = Astro.props;
   .noh-cta--primary:hover {
     background: var(--noh-green);
     border-color: var(--noh-green);
+  }
+  .noh-cta--inverse {
+    background: var(--noh-white);
+    color: var(--noh-teal);
+    border: 2px solid var(--noh-white);
   }
   /* Ghost inherits the surrounding text colour so it works on both the
      teal hero band (white text) and plain sections (ink text). */
