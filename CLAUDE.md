@@ -29,6 +29,8 @@ Any token/component change → bump `package.json` `version`, push. Consumer sit
 | `src/Footer.astro` | Green-strip footer; optional verbatim compliance line for regulated content |
 | `src/BrandPill.astro` | Small cross-domain link to the sister surface |
 | `src/NomaBadge.astro` | Declares NOMA deployment model (Direct/Partner/Affiliate/Embedded) |
+| `src/CtaButton.astro` | Shared CTA button (primary/ghost) — every Book/Register/Enrol/EOI button uses this |
+| `src/urls.js` | Canonical form endpoints: universal patient intake (JotForm `230362510790550`, the ONLY intake form — consolidated 2026-07-06) + provider EOI (`250542120069548`), with `intakeUrl(source)` helper |
 | `src/brand.css` | CSS variables (single source from PDF v1.0) |
 | `src/reset.css` | Minimal modern reset |
 | `assets/noh-logo.png` | Canonical NOH transparent logo (1254×1254) |

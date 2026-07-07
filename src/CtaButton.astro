@@ -1,0 +1,50 @@
+---
+/**
+ * CtaButton — the shared call-to-action button for the NOH web estate.
+ * Defined once here so every site's Book / Register / Enrol / EOI button
+ * looks and behaves the same. Pair with urls.js for the canonical hrefs.
+ */
+
+interface Props {
+  href: string;
+  variant?: "primary" | "ghost";
+  /** External links (forms, WhatsApp) open in a new tab. */
+  external?: boolean;
+}
+
+const { href, variant = "primary", external = false } = Astro.props;
+---
+
+<a
+  class={`noh-cta noh-cta--${variant}`}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener" : undefined}
+><slot /></a>
+
+<style>
+  .noh-cta {
+    display: inline-block;
+    font-weight: 700;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+  .noh-cta--primary {
+    background: var(--noh-teal);
+    color: var(--noh-white);
+    border: 2px solid var(--noh-teal);
+  }
+  .noh-cta--primary:hover {
+    background: var(--noh-green);
+    border-color: var(--noh-green);
+  }
+  /* Ghost inherits the surrounding text colour so it works on both the
+     teal hero band (white text) and plain sections (ink text). */
+  .noh-cta--ghost {
+    background: transparent;
+    border: 2px solid currentColor;
+    color: inherit;
+  }
+</style>

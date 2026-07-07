@@ -1,6 +1,6 @@
 {
   "name": "@noh/brand-chrome",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "description": "Shared brand chrome (header, footer, CSS variables, NOMA badges) for the Network One Health web estate. Aligned to LOCKED Brand System v1.0 (2026-05-15).",
   "type": "module",
@@ -11,6 +11,8 @@
     "./BrandPill.astro": "./src/BrandPill.astro",
     "./BrandMark.astro": "./src/BrandMark.astro",
     "./NomaBadge.astro": "./src/NomaBadge.astro",
+    "./CtaButton.astro": "./src/CtaButton.astro",
+    "./urls": "./src/urls.js",
     "./BaseLayout.astro": "./src/BaseLayout.astro",
     "./brand.css": "./src/brand.css",
     "./reset.css": "./src/reset.css"
