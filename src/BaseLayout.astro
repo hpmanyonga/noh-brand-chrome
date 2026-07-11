@@ -31,7 +31,7 @@ interface Props {
   /** Which brand leads the header. "noh" (default) or "practice". */
   lead?: "noh" | "practice";
   /** Header CTA override — see Header.astro. */
-  cta?: { label: string; href: string } | false;
+  cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
 }
 
 const {
