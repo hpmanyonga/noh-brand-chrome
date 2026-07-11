@@ -30,7 +30,7 @@ Any token/component change → bump `package.json` `version`, push. Consumer sit
 | `src/BrandPill.astro` | Small cross-domain link to the sister surface |
 | `src/NomaBadge.astro` | Declares NOMA deployment model (Direct/Partner/Affiliate/Embedded) |
 | `src/CtaButton.astro` | Shared CTA button (primary/ghost) — every Book/Register/Enrol/EOI button uses this |
-| `src/urls.js` | Canonical form endpoints: universal patient intake (JotForm `230362510790550`, the ONLY intake form — consolidated 2026-07-06) + provider EOI (`250542120069548`), with `intakeUrl(source)` helper |
+| `src/urls.js` | Canonical form endpoints: universal intake (JotForm `230362510790550` — CLINICAL ENROLMENT ONLY, HP rule 2026-07-11: never the primary CTA on public patient pages) + patient call-back EOI (`243391667086062`, the patient front door, `callbackUrl(source)`) + provider EOI (`250542120069548`), with `intakeUrl(source)` helper |
 | `src/brand.css` | CSS variables (single source from PDF v1.0) |
 | `src/reset.css` | Minimal modern reset |
 | `assets/noh-logo.png` | Canonical NOH transparent logo (1254×1254) |
