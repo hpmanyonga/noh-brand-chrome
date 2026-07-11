@@ -76,13 +76,6 @@ const brand =
     </a>
 
     <div class="noh-header__right">
-      {nav.length > 0 && (
-        <nav class="noh-header__nav" aria-label="Primary">
-          {nav.map((item) => (
-            <a href={item.href}>{item.label}</a>
-          ))}
-        </nav>
-      )}
       {headerCtas.map((c) => (
         <a class={`noh-header__cta noh-header__cta--${c.variant ?? "solid"}`} href={c.href} target="_blank" rel="noopener">
           {c.label}
@@ -90,6 +83,13 @@ const brand =
       ))}
       <BrandPill domain={domain} />
     </div>
+    {nav.length > 0 && (
+      <nav class="noh-header__nav" aria-label="Primary">
+        {nav.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+    )}
   </div>
 </header>
 
@@ -139,8 +139,13 @@ const brand =
   .noh-header__right {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.6rem;
+    flex-wrap: nowrap;
+    margin-left: auto;
+  }
+  .noh-header__nav {
+    flex-basis: 100%;
+    padding-top: 0.35rem;
   }
   .noh-header__cta {
     font-weight: 700;
