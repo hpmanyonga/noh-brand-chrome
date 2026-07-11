@@ -11,6 +11,7 @@
  * by URL: cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-colour.svg
  */
 import BrandPill from "./BrandPill.astro";
+import { callbackUrl, EOI_FORM_URL } from "./urls.js";
 
 interface Props {
   /** Which domain we're on — drives BrandPill direction */
@@ -24,9 +25,22 @@ interface Props {
   /** Which brand leads the header. "noh" (default) or "practice"
       (the clinician-owned provider estate: hpmanyonga.co.za + join.). */
   lead?: "noh" | "practice";
+  /** Prominent header action (HP rule 2026-07-11: the funnel door is always
+      visible at the top). Defaults by lead: "noh" -> patient call-back EOI,
+      "practice" -> provider EOI. Pass false to suppress, or {label, href}
+      to override. */
+  cta?: { label: string; href: string } | false;
 }
 
-const { domain, nav = [], home = "/", lead = "noh" } = Astro.props;
+const { domain, nav = [], home = "/", lead = "noh", cta } = Astro.props;
+
+const headerCta =
+  cta === false
+    ? null
+    : cta ??
+      (lead === "practice"
+        ? { label: "Express interest", href: `${EOI_FORM_URL}?source=header-join` }
+        : { label: "Ask us to call you", href: callbackUrl(`header-${domain}`) });
 
 const CDN = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets";
 const brand =
@@ -69,6 +83,11 @@ const brand =
             <a href={item.href}>{item.label}</a>
           ))}
         </nav>
+      )}
+      {headerCta && (
+        <a class="noh-header__cta" href={headerCta.href} target="_blank" rel="noopener">
+          {headerCta.label}
+        </a>
       )}
       <BrandPill domain={domain} />
     </div>
@@ -123,6 +142,19 @@ const brand =
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+  .noh-header__cta {
+    background: var(--noh-green);
+    color: var(--noh-white);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .noh-header__cta:hover {
+    filter: brightness(0.92);
   }
   .noh-header__nav {
     display: flex;

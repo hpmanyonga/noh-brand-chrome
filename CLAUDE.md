@@ -25,7 +25,7 @@ Any token/component change → bump `package.json` `version`, push. Consumer sit
 | File | Purpose |
 |---|---|
 | `src/BaseLayout.astro` | Default page shell — head meta, Inter font, header + footer wired |
-| `src/Header.astro` | NOH-led header (logo + name + subline + cross-domain pill) |
+| `src/Header.astro` | NOH-led header (logo + name + subline + cross-domain pill) + prominent funnel CTA (HP 2026-07-11: lead=noh -> "Ask us to call you" patient EOI; lead=practice -> "Express interest" provider EOI; `cta` prop overrides/suppresses) |
 | `src/Footer.astro` | Green-strip footer; optional verbatim compliance line for regulated content |
 | `src/BrandPill.astro` | Small cross-domain link to the sister surface |
 | `src/NomaBadge.astro` | Declares NOMA deployment model (Direct/Partner/Affiliate/Embedded) |

@@ -30,6 +30,8 @@ interface Props {
   ogImage?: string;
   /** Which brand leads the header. "noh" (default) or "practice". */
   lead?: "noh" | "practice";
+  /** Header CTA override — see Header.astro. */
+  cta?: { label: string; href: string } | false;
 }
 
 const {
@@ -44,6 +46,7 @@ const {
   nav = [],
   ogImage,
   lead = "noh",
+  cta,
 } = Astro.props;
 
 const lang = domain === "coza" ? "en-ZA" : "en";
@@ -78,7 +81,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <slot name="head" />
   </head>
   <body>
-    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} />
+    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} cta={cta} />
     <main>
       <slot />
     </main>
