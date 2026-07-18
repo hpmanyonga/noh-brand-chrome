@@ -2,8 +2,12 @@
 /**
  * NOH Footer (PDF B9).
  *
- * Standard footer = teal/green strip, white text, 3 items:
- *   info@networkonehealth.co.za, 066 499 2713, www.networkonehealth.co.za
+ * Standard footer = teal/green strip, white text:
+ *   info@networkonehealth.co.za, WhatsApp bot 071 224 2788 (SWIFT Care
+ *   automated line, diary-connected — HP's preferred bot number),
+ *   WhatsApp team 066 499 2713 (human-staffed), www.networkonehealth.co.za.
+ *   Bot vs team labels are intentional (HP 2026-07-18): patients choose
+ *   instant automated answers vs a human. Never drop the bot line.
  *
  * Compliance footer line (only when `compliance` is true, i.e. on regulated
  * clinical content). Canonical wording set by HP 2026-07-10 (supersedes the
@@ -56,7 +60,12 @@ const sister =
           <a href="mailto:info@networkonehealth.co.za">info@networkonehealth.co.za</a>
         </li>
         <li>
-          <a href="tel:+27664992713">066 499 2713</a>
+          <span class="noh-footer__label">WhatsApp (bot):</span>
+          <a href="https://wa.me/27712242788">071 224 2788</a>
+        </li>
+        <li>
+          <span class="noh-footer__label">WhatsApp (team):</span>
+          <a href="https://wa.me/27664992713">066 499 2713</a>
         </li>
         <li>
           <a href="https://www.networkonehealth.co.za">www.networkonehealth.co.za</a>
@@ -106,6 +115,11 @@ const sister =
     gap: 1.5rem;
     flex-wrap: wrap;
     font-weight: 500;
+  }
+  .noh-footer__label {
+    opacity: 0.85;
+    font-weight: 500;
+    margin-right: 0.35rem;
   }
   .noh-footer__sister {
     font-weight: 500;
