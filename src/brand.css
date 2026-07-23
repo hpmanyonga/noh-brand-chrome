@@ -1,32 +1,49 @@
 /*
  * NOH Brand Chrome — canonical CSS variables
- * Source of truth: OneDrive-NetworkOneHealth/Academy and Professional Dev_NEW/
- *                  30-templates/brand/2026-05-15_brand-system_universal_v1.0.pdf
- * Status: LOCKED · DO NOT EDIT (per PDF page 1)
+ * Source of truth: NOH Brand Bible v2.0 (network-one-design, CR-001/CR-001a/CR-002,
+ *                  approved by Dr HP Manyonga 2026-07-21).
+ * Status: v2 canon. Supersedes Brand System PDF v1.0 for digital surfaces.
  *
- * Hard rules (PDF B1, B2, B5):
- *   - Brand hierarchy: Network One Health ALWAYS leads. Practice name
- *     ("Dr HP Manyonga and Associates Inc.") appears ONLY in the compliance
- *     footer — never in hero copy or chrome.
- *   - Colours: primary teal #40887D, secondary green #599692, dusty pink #F5B3B9.
- *     No additional palette colours without HP sign-off.
- *   - Typography: Inter for digital (this is the web), Arial for documents.
+ * v2 changes vs v1 (do not silently revert):
+ *   - Typography: Arial for ALL surfaces (Inter dropped, CR-002).
+ *   - Green #599692 RETIRED from the palette. Anything that was green now uses a
+ *     deep teal. `--noh-green` is kept ONLY as a backwards-compat alias mapped to
+ *     the deep teal so existing components (Footer strip, CtaButton, Header pill,
+ *     NomaBadge) shift together — do not reintroduce green.
+ *   - Pink accent #F5B3B9 -> #E8A0A8 (dusty pink, canonical).
+ *   - Ink #1A1A1A -> #21302d (green-black, not pure black).
+ *
+ * Hard rules (unchanged): teal #40887D is the primary/anchor colour; Network One
+ * Health leads by default (practice name only in the compliance footer) — except
+ * the clinician-owned estate (hpmanyonga.co.za) which leads with the practice via
+ * lead="practice".
  */
 
 :root {
-  /* Primary palette (PDF B2) */
-  --noh-teal: #40887D;          /* primary — headings, buttons, brand accents */
-  --noh-green: #599692;         /* secondary — contrast accents, footer strip */
-  --noh-pink: #F5B3B9;          /* accent — supporting, maternity-facing */
+  /* Teal ramp (v2 anchor) */
+  --noh-teal: #40887D;          /* PRIMARY — headings, buttons, brand accents */
+  --noh-teal-deep: #346e66;     /* deep teal — footer strip, dark bands (white text passes AA) */
+  --noh-teal-soft: #5f9d93;     /* secondary teal (replaces the retired green) */
+  --noh-teal-100: #e8efee;      /* tint — chips, soft fills */
+  --noh-teal-50:  #f3f7f6;      /* faintest tint — section wash */
+
+  /* Backwards-compat alias — green retired, mapped to deep teal. Do not reintroduce green. */
+  --noh-green: var(--noh-teal-deep);
+
+  /* Pink accent (v2) */
+  --noh-pink: #E8A0A8;          /* dusty pink accent — eyebrows, maternity-facing */
+  --noh-pink-soft: #f3c8cd;     /* pink tint */
 
   /* Neutrals */
-  --noh-white: #FFFFFF;         /* warm off-white / paper tone */
-  --noh-ink: #1A1A1A;           /* body text (not pure black) */
-  --noh-soft-gray: #E9ECEB;     /* borders, dividers */
-  --noh-muted: #6b7280;         /* secondary text */
+  --noh-white: #FFFFFF;         /* primary background */
+  --noh-paper: #fbf8f3;         /* warm off-white — section bands */
+  --noh-paper-2: #f3efe7;       /* alt band / divider tone */
+  --noh-ink: #21302d;           /* body text (green-black, not pure black) */
+  --noh-soft-gray: #E2DED6;     /* borders, dividers */
+  --noh-muted: #66706d;         /* secondary text */
 
-  /* Type (PDF B5) — Inter for digital */
-  --noh-font: "Inter", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  /* Type (v2, CR-002) — Arial everywhere; zero external font requests */
+  --noh-font: Arial, "Helvetica Neue", Helvetica, sans-serif;
 
   /* Rhythm */
   --noh-space-1: 0.25rem;

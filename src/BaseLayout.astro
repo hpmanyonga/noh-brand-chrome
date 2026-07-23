@@ -1,7 +1,7 @@
 ---
 /**
  * BaseLayout — default page shell for every NOH site.
- * Applies brand CSS, Inter from Google Fonts, renders Header + Footer
+ * Applies brand CSS (v2, Arial), renders Header + Footer
  * with the right domain + compliance context.
  */
 import Header from "./Header.astro";
@@ -64,13 +64,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
       <link rel="alternate" hreflang={hreflangSister.lang} href={hreflangSister.href} />
     )}
 
-    <!-- Inter (digital typography per PDF B5) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    />
+    <!-- Typography: Arial system stack (v2 / CR-002 — Inter dropped, zero external font requests) -->
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
