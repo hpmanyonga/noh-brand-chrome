@@ -28,6 +28,8 @@ interface Props {
   nav?: { label: string; href: string }[];
   /** Optional OG image URL */
   ogImage?: string;
+  /** OpenGraph type — "website" (default) or "product" for catalogue/product pages */
+  ogType?: string;
   /** Which brand leads the header. "noh" (default) or "practice". */
   lead?: "noh" | "practice";
   /** Header CTA override — see Header.astro. */
@@ -45,6 +47,7 @@ const {
   hreflangSister,
   nav = [],
   ogImage,
+  ogType = "website",
   lead = "noh",
   cta,
 } = Astro.props;
@@ -69,7 +72,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     {ogImage && <meta property="og:image" content={ogImage} />}
 
     <slot name="head" />
