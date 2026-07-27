@@ -75,6 +75,10 @@ const brand =
       </span>
     </a>
 
+    <button class="noh-header__toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
     <div class="noh-header__right">
       {headerCtas.map((c) => (
         <a class={`noh-header__cta noh-header__cta--${c.variant ?? "solid"}`} href={c.href} target="_blank" rel="noopener">
@@ -175,7 +179,79 @@ const brand =
   }
   .noh-header__nav a { color: var(--noh-ink); }
   .noh-header__nav a:hover { color: var(--noh-teal); }
-  @media (max-width: 640px) {
+
+  /* hamburger toggle — hidden on desktop */
+  .noh-header__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--noh-soft-gray);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .noh-header__toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--noh-teal);
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .noh-header.is-open .noh-header__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .noh-header.is-open .noh-header__toggle span:nth-child(2) { opacity: 0; }
+  .noh-header.is-open .noh-header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 860px) {
+    .noh-header__toggle { display: flex; }
     .noh-header__brand-sub { display: none; }
+    /* collapse nav + CTAs behind the hamburger */
+    .noh-header__right,
+    .noh-header__nav { display: none; flex-basis: 100%; }
+    .noh-header.is-open .noh-header__right,
+    .noh-header.is-open .noh-header__nav {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-left: 0;
+    }
+    .noh-header.is-open .noh-header__nav {
+      gap: 0;
+      order: 1;
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--noh-soft-gray);
+      padding-top: 0.5rem;
+    }
+    .noh-header.is-open .noh-header__nav a {
+      padding: 0.75rem 0.25rem;
+      border-bottom: 1px solid var(--noh-soft-gray);
+      font-size: 1rem;
+    }
+    .noh-header.is-open .noh-header__right {
+      order: 2;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .noh-header.is-open .noh-header__cta {
+      text-align: center;
+      padding: 0.7rem 1.1rem;
+      font-size: 0.95rem;
+    }
   }
 </style>
+
+<script>
+  // Mobile nav toggle. Runs once; bundled + deduped by Astro across pages.
+  document.querySelectorAll(".noh-header__toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const header = btn.closest(".noh-header");
+      const open = header.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+</script>
