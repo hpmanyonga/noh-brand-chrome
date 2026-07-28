@@ -252,6 +252,12 @@ const brand =
       font-size: 0.95rem;
     }
   }
+  /* Extra tightening on narrow phones so the bigger logo/name never
+     crowds the hamburger on a ~360-390px viewport. */
+  @media (max-width: 400px) {
+    .noh-header__mark { width: 40px; height: 40px; }
+    .noh-header__brand-name { font-size: 1.02rem; }
+  }
 </style>
 
 <script>
