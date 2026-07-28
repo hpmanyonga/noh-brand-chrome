@@ -134,6 +134,12 @@ const sister =
     opacity: 0.95;
   }
   .noh-footer__base {
+    /* Rule (2026-07-28, do not repeat): never let muted/grey text sit
+       directly on an exposed page background. Consumer sites may set a
+       coloured `html body` canvas (e.g. the green ambient canvas on
+       hpmanyonga.co.za), and grey-on-that-green is illegible. Grey text
+       only ever renders inside a white/paper panel. */
+    background: var(--noh-white);
     padding: 1.25rem 0 2rem;
     color: var(--noh-muted);
     font-size: 0.78rem;
