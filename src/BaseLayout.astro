@@ -26,6 +26,8 @@ interface Props {
   hreflangSister?: { href: string; lang: string };
   /** Optional nav for header */
   nav?: { label: string; href: string }[];
+  /** Optional full sitemap links for the footer (see Footer.astro `links`) */
+  footerLinks?: { label: string; href: string }[];
   /** Optional OG image URL */
   ogImage?: string;
   /** OpenGraph type — "website" (default) or "product" for catalogue/product pages */
@@ -46,6 +48,7 @@ const {
   canonical,
   hreflangSister,
   nav = [],
+  footerLinks = [],
   ogImage,
   ogType = "website",
   lead = "noh",
@@ -82,6 +85,6 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <main>
       <slot />
     </main>
-    <Footer domain={domain} compliance={compliance} hpcsaPR={hpcsaPR} />
+    <Footer domain={domain} compliance={compliance} hpcsaPR={hpcsaPR} links={footerLinks} />
   </body>
 </html>

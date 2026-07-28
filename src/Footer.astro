@@ -35,9 +35,14 @@ interface Props {
   /** Practice number to inject into the compliance line (if known).
       Prop name kept as `hpcsaPR` for backwards compatibility. */
   hpcsaPR?: string;
+  /** Optional full sitemap links, rendered as a plain list above the
+      copyright line. Lets a lean top nav (Header.astro) demote secondary
+      pages without making them unreachable. Site-specific — passed in via
+      BaseLayout's `footerLinks` prop, not hardcoded here. */
+  links?: { label: string; href: string }[];
 }
 
-const { domain, compliance = false, hpcsaPR } = Astro.props;
+const { domain, compliance = false, hpcsaPR, links = [] } = Astro.props;
 
 const year = new Date().getFullYear();
 
@@ -74,6 +79,13 @@ const sister =
   </div>
 
   <div class="noh-footer__base noh-container">
+    {links.length > 0 && (
+      <ul class="noh-footer__sitemap">
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    )}
     {compliance && <p class="noh-footer__compliance">{complianceLine}</p>}
     <p class="noh-footer__copy">
       &copy; {year} Network One Health.
@@ -126,6 +138,17 @@ const sister =
     color: var(--noh-muted);
     font-size: 0.78rem;
   }
+  .noh-footer__sitemap {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  .noh-footer__sitemap a { color: var(--noh-muted); font-weight: 600; }
+  .noh-footer__sitemap a:hover { color: var(--noh-teal); }
   .noh-footer__compliance {
     margin: 0 0 0.5rem;
     font-style: italic;
