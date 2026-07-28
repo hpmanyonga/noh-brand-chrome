@@ -78,20 +78,22 @@ const sister =
     </div>
   </div>
 
-  <div class="noh-footer__base noh-container">
-    {links.length > 0 && (
-      <ul class="noh-footer__sitemap">
-        {links.map((l) => (
-          <li><a href={l.href}>{l.label}</a></li>
-        ))}
-      </ul>
-    )}
-    {compliance && <p class="noh-footer__compliance">{complianceLine}</p>}
-    <p class="noh-footer__copy">
-      &copy; {year} Network One Health.
-      <a href="/privacy">Privacy</a> ·
-      <a href="/terms">Terms</a>
-    </p>
+  <div class="noh-footer__base">
+    <div class="noh-container">
+      {links.length > 0 && (
+        <ul class="noh-footer__sitemap">
+          {links.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      )}
+      {compliance && <p class="noh-footer__compliance">{complianceLine}</p>}
+      <p class="noh-footer__copy">
+        &copy; {year} Network One Health.
+        <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms</a>
+      </p>
+    </div>
   </div>
 </footer>
 
