@@ -29,9 +29,11 @@ interface Props {
       always visible at the top — patient call-back AND provider EOI).
       Pass false to suppress, or an array to override. */
   cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
+  /** Set false to suppress the BrandPill cross-domain link (default true). */
+  brandPill?: boolean;
 }
 
-const { domain, nav = [], home = "/", lead = "noh", cta } = Astro.props;
+const { domain, nav = [], home = "/", lead = "noh", cta, brandPill = true } = Astro.props;
 
 const patientCta = { label: "Ask us to call you", href: callbackUrl(`header-${domain}`), variant: "solid" };
 const providerCta = { label: "Express interest", href: `${EOI_FORM_URL}?source=header-${domain}`, variant: "outline" };
@@ -85,7 +87,7 @@ const brand =
           {c.label}
         </a>
       ))}
-      <BrandPill domain={domain} />
+      {brandPill !== false && <BrandPill domain={domain} />}
     </div>
     {nav.length > 0 && (
       <nav class="noh-header__nav" aria-label="Primary">

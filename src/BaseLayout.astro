@@ -36,6 +36,8 @@ interface Props {
   lead?: "noh" | "practice";
   /** Header CTA override — see Header.astro. */
   cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
+  /** Set false to suppress the BrandPill cross-domain link in the header. */
+  brandPill?: boolean;
 }
 
 const {
@@ -53,6 +55,7 @@ const {
   ogType = "website",
   lead = "noh",
   cta,
+  brandPill,
 } = Astro.props;
 
 const lang = domain === "coza" ? "en-ZA" : "en";
@@ -81,7 +84,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <slot name="head" />
   </head>
   <body>
-    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} cta={cta} />
+    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} cta={cta} brandPill={brandPill} />
     <main>
       <slot />
     </main>
