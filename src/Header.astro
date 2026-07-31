@@ -7,11 +7,12 @@
  *
  * Logos: uses the canonical NOH mark (just the symbol) at small sizes for
  * crisp display. The full lockup `noh-colour.svg` is preferred for hero
- * banners and footers; use it via the BrandMark component or directly
- * by URL: cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-colour.svg
+ * banners and footers; use it via the BrandMark component.
  */
 import BrandPill from "./BrandPill.astro";
 import { callbackUrl, EOI_FORM_URL } from "./urls.js";
+import hpmaColour from "../assets/hpma-colour.png?url";
+import nohMarkColour from "../assets/noh-mark-colour.svg?url";
 
 interface Props {
   /** Which domain we're on — drives BrandPill direction */
@@ -43,17 +44,16 @@ const headerCtas =
     : cta ??
       (lead === "practice" ? [providerCta && { ...providerCta, variant: "solid" }, { ...patientCta, variant: "outline" }] : [patientCta, providerCta]);
 
-const CDN = "https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets";
 const brand =
   lead === "practice"
     ? {
-        mark: `${CDN}/hpma-colour.png`,
+        mark: hpmaColour,
         name: "Dr H P Manyonga & Associates",
         sub: "The Network One Health provider network",
         aria: "Dr H P Manyonga & Associates home",
       }
     : {
-        mark: `${CDN}/noh-mark-colour.svg`,
+        mark: nohMarkColour,
         name: "Network One Health",
         sub: "Coordinated maternal & women's health",
         aria: "Network One Health home",

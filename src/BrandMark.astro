@@ -3,7 +3,8 @@
  * BrandMark — convenience component for surfacing the canonical NOH lockup
  * outside the header. Use in hero banners, splash sections, footers, etc.
  *
- * Variants pull from the canonical assets in this repo (served via jsDelivr).
+ * Variants pull from the canonical assets bundled in this package (self-hosted
+ * at build time by each consuming site — no third-party CDN dependency).
  *
  * Variants:
  *   - "colour" (default) — full lockup on light backgrounds
@@ -13,6 +14,12 @@
  *   - "mark-colour" — symbol only (square)
  *   - "mark-white" — symbol only on dark
  */
+import nohColour from "../assets/noh-colour.svg?url";
+import nohWhite from "../assets/noh-white.svg?url";
+import nohBlack from "../assets/noh-black.svg?url";
+import nohGrayscale from "../assets/noh-grayscale.svg?url";
+import nohMarkColour from "../assets/noh-mark-colour.svg?url";
+import nohMarkWhite from "../assets/noh-mark-white.svg?url";
 
 interface Props {
   variant?: "colour" | "white" | "black" | "grayscale" | "mark-colour" | "mark-white";
@@ -30,7 +37,16 @@ const {
   loading = "lazy",
 } = Astro.props;
 
-const src = `https://cdn.jsdelivr.net/gh/hpmanyonga/noh-brand-chrome@main/assets/noh-${variant}.svg`;
+const VARIANTS: Record<string, string> = {
+  colour: nohColour,
+  white: nohWhite,
+  black: nohBlack,
+  grayscale: nohGrayscale,
+  "mark-colour": nohMarkColour,
+  "mark-white": nohMarkWhite,
+};
+
+const src = VARIANTS[variant];
 ---
 
 <img
