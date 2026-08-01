@@ -1,14 +1,19 @@
 /*
  * NOH Brand Chrome — canonical CSS variables
- * Source of truth: NOH Brand System non-negotiables (network-one-design skill) +
- * HP art direction 2026-07-24. Palette is v1 (the "sickly" v2 experiment — pink
- * #E8A0A8, green-removed — was REVERTED 2026-07-24 on HP's call).
+ * Source of truth: brand-bible-v3.0 (network-one-design, CR-006, 2026-08-01).
+ * The v2 four-token experiment (pink #E8A0A8, green-removed) was tried live
+ * and REVERTED 2026-07-24 ("undo sickly v2"); CR-006 formally reconfirms this
+ * five-token v1 palette as canonical and amends two rules below.
  *
  * Palette (law):
- *   - teal #40887D  primary / anchor. Primary CTAs are ALWAYS teal.
- *   - green #599692 secondary. Footers + power bands.
- *   - pink #F5B3B9  dusty accent, SUPPORTING only (never a CTA).
- *   - neutrals: white #FFFFFF or warm paper #F7F4EF. Text #1A1A1A (not pure black).
+ *   - teal #40887D   primary / anchor. Primary CTAs are ALWAYS teal.
+ *   - green #599692  secondary, MAIN. Footers, power bands, canvas, labels —
+ *     the dominant secondary colour.
+ *   - pink #F5B3B9   accent, JUNIOR. Minor interactive fills only (a CTA
+ *     variant, chips, reserved section washes) — always subordinate to
+ *     green's footprint. Never body text (fails contrast at every size).
+ *   - ink #1A1A1A    TEXT ONLY. Never a background or fill. No exception.
+ *   - neutrals: white #FFFFFF or warm paper #F7F4EF.
  *   - Type: Arial (CR-004 permits Inter for live product UI, but the estate is
  *     set to Arial per HP 2026-07-24).
  */
@@ -17,13 +22,14 @@
   /* Primary palette */
   --noh-teal: #40887D;          /* primary — headings, buttons, brand accents */
   --noh-teal-deep: #346e66;     /* darker teal for hover/depth only */
-  --noh-green: #599692;         /* secondary — footer strip, power bands */
-  --noh-pink: #F5B3B9;          /* dusty pink accent — supporting only */
+  --noh-green: #599692;         /* secondary, main — footer strip, power bands, canvas, labels */
+  --noh-pink: #F5B3B9;          /* accent, junior — CTA variant, chips, reserved washes; never body text */
+  --noh-pink-soft: #FAD9DC;     /* pale pink wash — reserved section backgrounds, soft chip fills */
 
   /* Neutrals */
   --noh-white: #FFFFFF;         /* primary background */
   --noh-paper: #F7F4EF;         /* warm off-white — section bands */
-  --noh-ink: #1A1A1A;           /* body text (not pure black) */
+  --noh-ink: #1A1A1A;           /* body text ONLY — never a background/fill (Bible v3.0 §03 rule 2) */
   --noh-soft-gray: #E9ECEB;     /* borders, dividers */
   --noh-line: #E2DED6;          /* warm hairline rule */
   --noh-muted: #6b7280;         /* secondary text */

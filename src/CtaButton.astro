@@ -7,8 +7,10 @@
 
 interface Props {
   href: string;
-  /** primary = teal; inverse = white (for teal/dark bands); ghost = outline. */
-  variant?: "primary" | "inverse" | "ghost";
+  /** primary = teal; inverse = white (for teal/dark bands); ghost = outline;
+      accent = pink (CR-006, 2026-08-01) — a minor/secondary CTA only, never
+      the primary action on a page. Ink text (pink fails contrast with white). */
+  variant?: "primary" | "inverse" | "ghost" | "accent";
   /** External links (forms, WhatsApp) open in a new tab. */
   external?: boolean;
 }
@@ -52,5 +54,17 @@ const { href, variant = "primary", external = false } = Astro.props;
     background: transparent;
     border: 2px solid currentColor;
     color: inherit;
+  }
+  /* Junior accent CTA (CR-006). Ink text, never white — ink on this pink is
+     9.97:1, white on it is ~1.75:1 and fails outright. For a secondary
+     action only; the primary action on any page stays teal. */
+  .noh-cta--accent {
+    background: var(--noh-pink);
+    color: var(--noh-ink);
+    border: 2px solid var(--noh-pink);
+  }
+  .noh-cta--accent:hover {
+    background: var(--noh-pink-soft);
+    border-color: var(--noh-pink-soft);
   }
 </style>
