@@ -35,6 +35,19 @@
   --noh-muted: #6b7280;         /* secondary text */
   --noh-teal-100: #e8efee;      /* teal tint — chips, soft fills */
 
+  /* Text-safe variants (proposed 2026-08-30, pending a CR into the Bible).
+     The brand colours above are UNCHANGED and still carry every fill, border,
+     icon, hover and large heading. These exist only for text small enough to
+     need a 4.5:1 ratio, because measured against white the brand values are:
+        teal   #40887D  4.17:1   fails small text, passes large (needs 3:1)
+        green  #599692  3.39:1   fails both
+        muted  #6b7280  4.83:1   passes on white, fails on pink-soft and tint
+     Darkened along the same hue, only until each clears. Teal needed no new
+     value at all: teal-deep already sits at 5.89:1. */
+  --noh-teal-text: #346e66;     /* = teal-deep. Small text, labels, links, small UI. 5.89:1 */
+  --noh-green-text: #4b7f7c;    /* green, darkened. Eyebrows, and bands under white text. 4.54:1 */
+  --noh-muted-strong: #5e6470;  /* muted, darkened. Secondary text on pink-soft or tint. 4.54:1 */
+
   /* Type — Arial (no external font requests) */
   --noh-font: Arial, "Helvetica Neue", Helvetica, sans-serif;
 
@@ -60,13 +73,18 @@ html {
 }
 body { background: var(--noh-white); margin: 0; line-height: 1.5; }
 
+/* Text-safe teal, not brand teal. h1 and h2 are large enough to clear 3:1 on
+   brand teal, but h3 to h6 routinely render at 18px, just under the 18.66px
+   bold threshold, where the floor is 4.5:1 and brand teal gives 4.17:1. One
+   colour for every heading is simpler and safer than a size-conditional rule,
+   and #346e66 against #40887D is a deepening, not a different colour. */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--noh-teal);
+  color: var(--noh-teal-text);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 
-a { color: var(--noh-teal); text-decoration: none; }
+a { color: var(--noh-teal-text); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .noh-container {

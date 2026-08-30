@@ -2,26 +2,15 @@
 /**
  * NOH Footer (PDF B9).
  *
- * Standard footer = teal/green strip, white text:
- *   info@networkonehealth.co.za, WhatsApp 071 224 2788 (single national patient line,
- *   automated line, diary-connected — HP's preferred bot number),
- *   diary-connected), www.networkonehealth.co.za.
- *   Bot vs team labels are intentional (HP 2026-07-18): patients choose
- *   instant automated answers vs a human. Never drop the bot line.
+ * Standard footer = green strip, white text: info@networkonehealth.co.za and
+ * WhatsApp 071 224 2788, the universal line that handles every centre
+ * automatically (HP 2026-08-30). Never drop that number.
  *
  * Compliance footer line (only when `compliance` is true, i.e. on regulated
- * clinical content). Canonical wording set by HP 2026-07-10 (supersedes the
- * 2026-05-26 and 2026-06-29 variants) — NOH is the integrator: the practice
- * signs off clinical content and owns the guidelines/tools (IP + know-how);
- * clinical delivery is by local teams under NOH governance. Sites may use
- * different clinical providers, so never write "clinical services provided
- * by". Identified by BHF practice number, never "HPCSA PR"/MP. This framing
- * complies with HPCSA and indemnity requirements:
- *   "A service of Network One Health. Clinical content is signed off by
- *    Dr H P Manyonga & Associates Inc. (BHF practice number 0977357); all
- *    guidelines and tools remain its property. Care at each site is delivered
- *    by your local Network One care team, under Network One clinical
- *    governance."
+ * clinical content). Wording and its reasoning are at `complianceLine` below.
+ * Identified by BHF practice number, never "HPCSA PR" or an MP number, and
+ * never phrased as "clinical services provided by" — sites may use different
+ * clinical providers.
  *
  * Cross-brand link (the "elegant, non-disruptive" link to the sister domain)
  * sits as a sub-link inside the strip.
@@ -113,7 +102,7 @@ const sister =
     line-height: 1.6;
   }
   .noh-footer__strip {
-    background: var(--noh-green);
+    background: var(--noh-green-text);
     color: var(--noh-white);
     padding: 1.5rem 0;
   }
@@ -165,7 +154,7 @@ const sister =
     font-size: 0.85rem;
   }
   .noh-footer__sitemap a { color: var(--noh-muted); font-weight: 600; }
-  .noh-footer__sitemap a:hover { color: var(--noh-teal); }
+  .noh-footer__sitemap a:hover { color: var(--noh-teal-text); }
   .noh-footer__compliance {
     margin: 0 0 0.5rem;
     font-style: italic;
