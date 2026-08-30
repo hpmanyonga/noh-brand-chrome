@@ -46,10 +46,22 @@ const { domain, compliance = false, hpcsaPR, links = [] } = Astro.props;
 
 const year = new Date().getFullYear();
 
-// Canonical compliance footer (HP 2026-07-10). Sign-off + IP ownership sit
-// with the practice; delivery sits with local teams under NOH governance —
-// wording must survive sites where the practice is not the clinical provider.
-const complianceLine = `A service of Network One Health. Clinical content is signed off by Dr H P Manyonga & Associates Inc. (BHF practice number ${hpcsaPR ?? "0977357"}); all guidelines and tools remain its property. Care at each site is delivered by your local Network One care team, under Network One clinical governance.`;
+// Canonical compliance footer. Revised HP 2026-08-30, replacing the 2026-07-10
+// wording, which said care is "delivered by your local Network One care team,
+// under Network One clinical governance". Network One Health is a management
+// company and does not deliver care, so that sentence named the wrong party.
+//
+// The corrected chain, and the order it must be stated in:
+//   Network One Health is the envelope. It contracts the underlying service
+//   providers and governs them. Clinical oversight and accountability sit with
+//   Dr H P Manyonga & Associates Inc., the regulated entity, which contracts
+//   local providers under service level agreements; those providers may be
+//   multidisciplinary in their own right.
+//
+// Integrator framing is preserved deliberately: this never reads as "clinical
+// services provided by" the practice. It still survives a site where the
+// practice is not itself the treating provider.
+const complianceLine = `Network One Health contracts and governs the clinical practices that deliver care at each site. Clinical oversight and accountability sit with Dr H P Manyonga & Associates Inc. (BHF practice number ${hpcsaPR ?? "0977357"}). All guidelines and tools remain the practice's property.`;
 
 const sister =
   domain === "com"
