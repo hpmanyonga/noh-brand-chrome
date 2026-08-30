@@ -6,9 +6,12 @@
  * to the sister domain — does NOT name the practice (practice name lives in
  * the compliance footer only).
  *
- * On .com we surface the ZA service site. On .co.za we surface the
- * clinician brand. The cross-domain bridge is the "elegant non-disruptive"
- * link the brand owner asked for.
+ * On .com we surface the ZA service site. On .co.za we surface the brand home
+ * at networkonehealth.co.za, which owns who-we-are, the team, the facilities
+ * and the fees philosophy (HP ruling 2026-08-30, "option A").
+ *
+ * This used to point at hpmanyonga.com/about. That domain is being retired, so
+ * the bridge was sending readers to a dead end.
  */
 
 interface Props {
@@ -25,8 +28,8 @@ const defaults = {
     href: "https://hpmanyonga.co.za",
   },
   coza: {
-    label: "About Dr HP Manyonga",
-    href: "https://hpmanyonga.com/about",
+    label: "Who we are",
+    href: "https://www.networkonehealth.co.za",
   },
 };
 
