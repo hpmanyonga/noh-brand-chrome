@@ -35,7 +35,7 @@
   --noh-muted: #6b7280;         /* secondary text */
   --noh-teal-100: #e8efee;      /* teal tint — chips, soft fills */
 
-  /* Text-safe variants (proposed 2026-08-30, pending a CR into the Bible).
+  /* Text-safe variants (CR-007, 2026-08-30, Brand Bible v3.1).
      The brand colours above are UNCHANGED and still carry every fill, border,
      icon, hover and large heading. These exist only for text small enough to
      need a 4.5:1 ratio, because measured against white the brand values are:
