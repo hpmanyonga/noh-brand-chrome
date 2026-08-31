@@ -52,10 +52,14 @@ const year = new Date().getFullYear();
 // practice is not itself the treating provider.
 const complianceLine = `Network One Health contracts and governs the clinical practices that deliver care at each site. Clinical oversight and accountability sit with Dr H P Manyonga & Associates Inc. (BHF practice number ${hpcsaPR ?? "0977357"}). All guidelines and tools remain the practice's property.`;
 
+// On .co.za there is no sister site to send anyone to. hpmanyonga.com is being
+// retired and networkonehealth.co.za was mothballed (HP 2026-08-31), so a
+// prominent "Also visit" would push readers off the only maintained surface
+// onto a frozen one. The .com keeps its link home while it still exists.
 const sister =
   domain === "com"
     ? { label: "Network One Health (SA)", href: "https://hpmanyonga.co.za" }
-    : { label: "Network One Health", href: "https://www.networkonehealth.co.za" };
+    : null;
 ---
 
 <footer class="noh-footer">
@@ -70,9 +74,11 @@ const sister =
           <a href="https://wa.me/27712242788">071 224 2788</a>
         </li>
       </ul>
-      <a class="noh-footer__sister" href={sister.href}>
-        Also visit: <strong>{sister.label}</strong> →
-      </a>
+      {sister && (
+        <a class="noh-footer__sister" href={sister.href}>
+          Also visit: <strong>{sister.label}</strong> →
+        </a>
+      )}
     </div>
   </div>
 

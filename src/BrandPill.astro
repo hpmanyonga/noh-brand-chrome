@@ -6,12 +6,12 @@
  * to the sister domain — does NOT name the practice (practice name lives in
  * the compliance footer only).
  *
- * On .com we surface the ZA service site. On .co.za we surface the brand home
- * at networkonehealth.co.za, which owns who-we-are, the team, the facilities
- * and the fees philosophy (HP ruling 2026-08-30, "option A").
+ * On .com we surface the ZA service site.
  *
- * This used to point at hpmanyonga.com/about. That domain is being retired, so
- * the bridge was sending readers to a dead end.
+ * On .co.za the pill is OFF by default and has no destination worth pointing at:
+ * hpmanyonga.com is being retired and networkonehealth.co.za was mothballed
+ * (HP 2026-08-31). It falls back to the .co.za About page rather than sending a
+ * reader to a frozen or dying site.
  */
 
 interface Props {
@@ -29,7 +29,7 @@ const defaults = {
   },
   coza: {
     label: "Who we are",
-    href: "https://www.networkonehealth.co.za",
+    href: "https://hpmanyonga.co.za/about",
   },
 };
 
