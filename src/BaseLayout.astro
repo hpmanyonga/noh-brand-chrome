@@ -89,5 +89,49 @@ const lang = domain === "coza" ? "en-ZA" : "en";
       <slot />
     </main>
     <Footer domain={domain} compliance={compliance} hpcsaPR={hpcsaPR} links={footerLinks} />
+
+    {/*
+      Channel attribution passthrough.
+
+      Every form CTA in the estate carries a hardcoded `source` naming its
+      PLACEMENT — header-coza, programmes-maternity, www-coza-home. That is
+      useful and stays. What was missing is the CHANNEL: a visitor arriving from
+      Pomelli, an ad or a printed QR with ?src=... clicked a CTA and JotForm was
+      told only the placement, so every channel looked like direct traffic. The
+      36 submissions on the call-back form bear this out: not one carries a
+      channel.
+
+      The form has a single hidden field, `source`, so both facts travel in it
+      as "channel|placement". Downstream reads it as free text. With no ?src=
+      the link is left exactly as it was.
+
+      Held for the session, so the channel survives a visitor browsing several
+      pages before converting.
+    */}
+    <script is:inline>
+      (function () {
+        var KEY = "noh:src";
+        try {
+          var q = new URLSearchParams(location.search).get("src");
+          if (q) sessionStorage.setItem(KEY, q);
+          var channel = q || sessionStorage.getItem(KEY);
+          if (!channel) return;
+          channel = channel.slice(0, 64).replace(/[^A-Za-z0-9_.-]/g, "");
+          if (!channel) return;
+
+          document.querySelectorAll('a[href*="form.jotform.com"]').forEach(function (a) {
+            var u;
+            try { u = new URL(a.href); } catch (e) { return; }
+            var placement = u.searchParams.get("source");
+            if (placement && placement.indexOf("|") !== -1) return; // already tagged
+            u.searchParams.set("source", placement ? channel + "|" + placement : channel);
+            a.href = u.toString();
+          });
+        } catch (e) {
+          /* sessionStorage can throw in private mode; attribution is never worth
+             breaking a page over. */
+        }
+      })();
+    </script>
   </body>
 </html>
