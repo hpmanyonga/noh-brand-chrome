@@ -107,24 +107,48 @@ const lang = domain === "coza" ? "en-ZA" : "en";
 
       Held for the session, so the channel survives a visitor browsing several
       pages before converting.
+
+      GOOGLE ADS. A paid click arrives with gclid, or wbraid/gbraid where Google
+      cannot set a cookie. Without capturing it, the conversion count in Google
+      Ads and the lead count in Notion are two unlinked numbers: you cannot say
+      which enrolled patient came from which campaign or keyword, or even that
+      they came from paid at all. The click id rides in its own `gclid` form
+      field rather than being packed into `source`, because it is the value you
+      join on and packing it would make that string fragile to parse. A paid
+      visit with no explicit ?src= is labelled channel "google-ads".
     */}
     <script is:inline>
       (function () {
-        var KEY = "noh:src";
+        var KEY = "noh:src", CID = "noh:cid";
+        var clean = function (v, n) {
+          return v ? String(v).slice(0, n).replace(/[^A-Za-z0-9_.-]/g, "") : "";
+        };
         try {
-          var q = new URLSearchParams(location.search).get("src");
+          var qs = new URLSearchParams(location.search);
+
+          var q = clean(qs.get("src"), 64);
           if (q) sessionStorage.setItem(KEY, q);
-          var channel = q || sessionStorage.getItem(KEY);
-          if (!channel) return;
-          channel = channel.slice(0, 64).replace(/[^A-Za-z0-9_.-]/g, "");
-          if (!channel) return;
+
+          // gclid first; wbraid and gbraid are what Google sends when it cannot
+          // set a cookie, and either still identifies the campaign.
+          var cid = clean(qs.get("gclid") || qs.get("wbraid") || qs.get("gbraid"), 128);
+          if (cid) sessionStorage.setItem(CID, cid);
+          cid = cid || clean(sessionStorage.getItem(CID), 128);
+
+          // A paid click with no explicit ?src= is still a known channel.
+          var channel = q || clean(sessionStorage.getItem(KEY), 64) || (cid ? "google-ads" : "");
+          if (!channel && !cid) return;
 
           document.querySelectorAll('a[href*="form.jotform.com"]').forEach(function (a) {
             var u;
             try { u = new URL(a.href); } catch (e) { return; }
-            var placement = u.searchParams.get("source");
-            if (placement && placement.indexOf("|") !== -1) return; // already tagged
-            u.searchParams.set("source", placement ? channel + "|" + placement : channel);
+            if (channel) {
+              var placement = u.searchParams.get("source");
+              if (!placement || placement.indexOf("|") === -1) {
+                u.searchParams.set("source", placement ? channel + "|" + placement : channel);
+              }
+            }
+            if (cid) u.searchParams.set("gclid", cid);
             a.href = u.toString();
           });
         } catch (e) {
