@@ -26,23 +26,36 @@ interface Props {
   /** Which brand leads the header. "noh" (default) or "practice"
       (the clinician-owned provider estate: hpmanyonga.co.za + join.). */
   lead?: "noh" | "practice";
-  /** Prominent header actions (HP rule 2026-07-11: both funnel doors are
-      always visible at the top — patient call-back AND provider EOI).
-      Pass false to suppress, or an array to override. */
+  /** Prominent header actions. Pass false to suppress, or an array to override. */
   cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
-  /** Set false to suppress the BrandPill cross-domain link (default true). */
+  /** Set true to show the BrandPill cross-domain link (default false —
+      see the note on crowding below). */
   brandPill?: boolean;
 }
 
-const { domain, nav = [], home = "/", lead = "noh", cta, brandPill = true } = Astro.props;
+const { domain, nav = [], home = "/", lead = "noh", cta, brandPill = false } = Astro.props;
 
 const patientCta = { label: "Ask us to call you", href: callbackUrl(`header-${domain}`), variant: "solid" };
 const providerCta = { label: "Express interest", href: `${EOI_FORM_URL}?source=header-${domain}`, variant: "outline" };
+// ONE action in the header (HP 2026-08-31, "the header is too crowded").
+//
+// It carried three pill-shaped elements in a row: the patient call-back, the
+// provider EOI, and the cross-domain BrandPill. Three competing targets at the
+// most valuable pixels on the page is not a choice, it is a hesitation. The
+// 50:30:10:10 ruling already makes the patient call-back the one action worth
+// putting there, and providers keep a permanent "For clinicians" nav item plus
+// the whole join.hpmanyonga.co.za estate.
+//
+// This supersedes the 2026-07-11 rule that both funnel doors stay visible.
+// The BrandPill now defaults off; the footer already carries the same
+// cross-domain link, so it was a duplicate as well as a third target.
+//
+// lead="practice" (join.hpmanyonga.co.za) is untouched: it is the provider
+// estate, so its one action is the provider EOI.
 const headerCtas =
   cta === false
     ? []
-    : cta ??
-      (lead === "practice" ? [providerCta && { ...providerCta, variant: "solid" }, { ...patientCta, variant: "outline" }] : [patientCta, providerCta]);
+    : cta ?? (lead === "practice" ? [{ ...providerCta, variant: "solid" as const }] : [patientCta]);
 
 const brand =
   lead === "practice"
@@ -219,17 +232,36 @@ const brand =
   .noh-header.is-open .noh-header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   @media (max-width: 860px) {
-    .noh-header__toggle { display: flex; }
+    .noh-header__toggle { display: flex; margin-left: 0.4rem; }
     .noh-header__brand-sub { display: none; }
-    /* collapse nav + CTAs behind the hamburger */
-    .noh-header__right,
+    /* The one CTA stays visible on mobile. It used to collapse behind the
+       hamburger because three buttons could not fit; with a single action there
+       is room, and hiding the prime call-back on the device most patients use
+       was the worst place to hide it. Only the nav collapses. */
+    /* One line: brand, then the call-back, then the menu. The toggle precedes
+       the CTA in the DOM, so without reordering the CTA wraps onto a row of its
+       own and the header doubles in height. */
+    .noh-header__inner { flex-wrap: nowrap; }
+    .noh-header__brand { order: 1; flex: 1 1 auto; min-width: 0; }
+    .noh-header__right {
+      order: 2;
+      display: flex;
+      flex: 0 0 auto;
+      flex-basis: auto;
+      margin-left: 0;
+      gap: 0.4rem;
+    }
+    .noh-header__toggle { order: 3; flex: 0 0 auto; }
+    .noh-header__nav { order: 4; }
+    .noh-header__brand-name { white-space: nowrap; }
     .noh-header__nav { display: none; flex-basis: 100%; }
-    .noh-header.is-open .noh-header__right,
+    .noh-header.is-open .noh-header__inner { flex-wrap: wrap; }
     .noh-header.is-open .noh-header__nav {
       display: flex;
       flex-direction: column;
       align-items: stretch;
       margin-left: 0;
+      flex-basis: 100%;
     }
     .noh-header.is-open .noh-header__nav {
       gap: 0;
@@ -243,22 +275,24 @@ const brand =
       border-bottom: 1px solid var(--noh-soft-gray);
       font-size: 1rem;
     }
-    .noh-header.is-open .noh-header__right {
-      order: 2;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-    }
-    .noh-header.is-open .noh-header__cta {
-      text-align: center;
-      padding: 0.7rem 1.1rem;
-      font-size: 0.95rem;
+    .noh-header__cta {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
     }
   }
   /* Extra tightening on narrow phones so the bigger logo/name never
      crowds the hamburger on a ~360-390px viewport. */
-  @media (max-width: 400px) {
-    .noh-header__mark { width: 40px; height: 40px; }
-    .noh-header__brand-name { font-size: 1.02rem; }
+  /* Narrow phones: the brand, the CTA and the hamburger all have to fit on one
+     line, so the mark and the wordmark give up a little room rather than the
+     call-back wrapping or being pushed off. */
+  /* Narrow phones. Brand mark, the call-back and the menu will not fit
+     alongside the wordmark at a readable size, so the wordmark goes and the
+     mark carries the identity. Truncating it to "Network On…" reads as broken;
+     the mark alone does not. */
+  @media (max-width: 560px) {
+    .noh-header__mark { width: 38px; height: 38px; }
+    .noh-header__brand-text { display: none; }
+    .noh-header__cta { padding: 0.6rem 1rem; font-size: 0.88rem; }
   }
 </style>
 
