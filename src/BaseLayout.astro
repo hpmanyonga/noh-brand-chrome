@@ -62,6 +62,20 @@ const {
 } = Astro.props;
 
 const lang = domain === "coza" ? "en-ZA" : "en";
+
+// SOCIAL AND SEARCH IMAGERY (2026-09-01).
+//
+// Twelve of the flagship's 57 indexable pages carried an og:image and the rest
+// carried none, so a link to any of the other 45 shared as a bare grey box, and
+// Google had no image to attach in the surfaces that use one. Rather than add
+// the tag to 45 page templates, an absolute default is derived from the page's
+// own canonical URL, which every page already sets. A page that names its own
+// ogImage still wins.
+//
+// Twitter/X card tags were absent entirely. summary_large_image is the only
+// sensible choice for a site whose OG images are all 1200x630.
+const ogImageResolved =
+  ogImage ?? (canonical ? new URL("/img/og-default.jpg", canonical).href : undefined);
 ---
 
 <!doctype html>
@@ -82,7 +96,28 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImageResolved && <meta property="og:image" content={ogImageResolved} />}
+    {ogImageResolved && <meta property="og:image:width" content="1200" />}
+    {ogImageResolved && <meta property="og:image:height" content="630" />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:site_name" content="Network One Health" />
+    <meta property="og:locale" content={lang === "en-ZA" ? "en_ZA" : "en_GB"} />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content={ogImageResolved ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageResolved && <meta name="twitter:image" content={ogImageResolved} />}
+
+    {/* Favicons. The mark is the PRACTICE monogram, not the NOH logo, because
+        the header on these surfaces leads with the practice and a tab icon that
+        disagrees with the masthead reads as the wrong site. A favicon is also
+        what Google renders beside a search result, and the flagship was serving
+        404 for every favicon path until now. Consumers that have not added the
+        files simply 404 as they already did. */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <slot name="head" />
   </head>
