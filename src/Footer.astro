@@ -78,7 +78,13 @@ const sister =
           <a href="https://wa.me/27712242788">071 224 2788</a>
         </li>
       </ul>
-      <a class="noh-footer__sister" href={sister.href}>
+      {/* rel="nofollow" (HP 2026-09-01: "do not point to networkonehealth.co.za
+          from the google pages"). The link stays, because the two entities are
+          real and each should acknowledge the other. What it must not be is a
+          sitewide ranking vote: this is 50-odd dofollow links on every page of
+          the estate, aimed at the one domain we are moving the Google Business
+          Profile and the ads AWAY from. Keep the relationship, drop the signal. */}
+      <a class="noh-footer__sister" href={sister.href} rel="nofollow">
         Also visit: <strong>{sister.label}</strong> →
       </a>
     </div>
