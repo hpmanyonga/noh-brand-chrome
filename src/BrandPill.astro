@@ -8,10 +8,9 @@
  *
  * On .com we surface the ZA service site.
  *
- * On .co.za the pill is OFF by default and has no destination worth pointing at:
- * hpmanyonga.com is being retired and networkonehealth.co.za was mothballed
- * (HP 2026-08-31). It falls back to the .co.za About page rather than sending a
- * reader to a frozen or dying site.
+ * On .co.za the pill is OFF by default (the header carries one action only), but
+ * where a site does switch it on it points at networkonehealth.co.za — the
+ * management company, a permanent sibling surface rather than a replacement.
  */
 
 interface Props {
@@ -28,8 +27,8 @@ const defaults = {
     href: "https://hpmanyonga.co.za",
   },
   coza: {
-    label: "Who we are",
-    href: "https://hpmanyonga.co.za/about",
+    label: "Network One Health",
+    href: "https://www.networkonehealth.co.za",
   },
 };
 

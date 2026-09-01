@@ -52,14 +52,18 @@ const year = new Date().getFullYear();
 // practice is not itself the treating provider.
 const complianceLine = `Network One Health contracts and governs the clinical practices that deliver care at each site. Clinical oversight and accountability sit with Dr H P Manyonga & Associates Inc. (BHF practice number ${hpcsaPR ?? "0977357"}). All guidelines and tools remain the practice's property.`;
 
-// On .co.za there is no sister site to send anyone to. hpmanyonga.com is being
-// retired and networkonehealth.co.za was mothballed (HP 2026-08-31), so a
-// prominent "Also visit" would push readers off the only maintained surface
-// onto a frozen one. The .com keeps its link home while it still exists.
+// The two sites co-exist permanently, split the way the entities are split
+// (HP 2026-09-01): this apex is the regulated gynaecology practice, and
+// networkonehealth.co.za is the management company, where service lines other
+// than gynaecology and maternity will live. So each should point at the other.
+//
+// Briefly removed 2026-08-31 on a misreading that the management site was
+// mothballed. It is not. What is mothballed is networkonematernity.co.za, and
+// mothballing here means a permanent redirect, not switching a site off.
 const sister =
   domain === "com"
     ? { label: "Network One Health (SA)", href: "https://hpmanyonga.co.za" }
-    : null;
+    : { label: "Network One Health", href: "https://www.networkonehealth.co.za" };
 ---
 
 <footer class="noh-footer">
@@ -74,11 +78,9 @@ const sister =
           <a href="https://wa.me/27712242788">071 224 2788</a>
         </li>
       </ul>
-      {sister && (
-        <a class="noh-footer__sister" href={sister.href}>
-          Also visit: <strong>{sister.label}</strong> →
-        </a>
-      )}
+      <a class="noh-footer__sister" href={sister.href}>
+        Also visit: <strong>{sister.label}</strong> →
+      </a>
     </div>
   </div>
 
