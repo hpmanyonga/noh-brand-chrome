@@ -34,6 +34,8 @@ interface Props {
   ogType?: string;
   /** Which brand leads the header. "noh" (default) or "practice". */
   lead?: "noh" | "practice";
+  /** Which funnel this surface serves — see Header.astro. */
+  primary?: "patient" | "provider";
   /** Header CTA override — see Header.astro. */
   cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
   /** Set false to suppress the BrandPill cross-domain link in the header. */
@@ -54,6 +56,7 @@ const {
   ogImage,
   ogType = "website",
   lead = "noh",
+  primary,
   cta,
   brandPill,
 } = Astro.props;
@@ -84,7 +87,7 @@ const lang = domain === "coza" ? "en-ZA" : "en";
     <slot name="head" />
   </head>
   <body>
-    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} cta={cta} brandPill={brandPill} />
+    <Header domain={domain} contentType={contentType} nav={nav} lead={lead} primary={primary} cta={cta} brandPill={brandPill} />
     <main>
       <slot />
     </main>

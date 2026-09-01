@@ -11,7 +11,12 @@
  */
 import BrandPill from "./BrandPill.astro";
 import { callbackUrl, EOI_FORM_URL } from "./urls.js";
-import hpmaColour from "../assets/hpma-colour.png?url";
+// The mark only, cropped from the official practice lockup. The full lockup
+// is 3:2 and carries "HP MANYONGA & ASSOCIATES / OBSTETRICIANS &
+// GYNAECOLOGISTS" as artwork; squeezed into the header's 52px square it
+// rendered as illegible mush beside a wordmark that already says the same
+// thing in real text. The symbol survives at that size; the words do not.
+import hpmaColour from "../assets/hpma-mark-colour.png?url";
 import nohMarkColour from "../assets/noh-mark-colour.svg?url";
 
 interface Props {
@@ -23,9 +28,13 @@ interface Props {
   nav?: { label: string; href: string }[];
   /** Home href — defaults to "/" */
   home?: string;
-  /** Which brand leads the header. "noh" (default) or "practice"
-      (the clinician-owned provider estate: hpmanyonga.co.za + join.). */
+  /** Which brand leads the header. "noh" (default) or "practice". */
   lead?: "noh" | "practice";
+  /** Which funnel this surface serves. Decoupled from `lead` on purpose:
+      hpmanyonga.co.za leads with the PRACTICE brand but its one action is the
+      PATIENT call-back, while join. leads with the practice and sells the
+      provider EOI. Defaults preserve the old lead-driven behaviour. */
+  primary?: "patient" | "provider";
   /** Prominent header actions. Pass false to suppress, or an array to override. */
   cta?: { label: string; href: string; variant?: "solid" | "outline" }[] | false;
   /** Set true to show the BrandPill cross-domain link (default false —
@@ -33,7 +42,7 @@ interface Props {
   brandPill?: boolean;
 }
 
-const { domain, nav = [], home = "/", lead = "noh", cta, brandPill = false } = Astro.props;
+const { domain, nav = [], home = "/", lead = "noh", primary, cta, brandPill = false } = Astro.props;
 
 const patientCta = { label: "Ask us to call you", href: callbackUrl(`header-${domain}`), variant: "solid" };
 const providerCta = { label: "Express interest", href: `${EOI_FORM_URL}?source=header-${domain}`, variant: "outline" };
@@ -55,14 +64,21 @@ const providerCta = { label: "Express interest", href: `${EOI_FORM_URL}?source=h
 const headerCtas =
   cta === false
     ? []
-    : cta ?? (lead === "practice" ? [{ ...providerCta, variant: "solid" as const }] : [patientCta]);
+    : cta ??
+      ((primary ?? (lead === "practice" ? "provider" : "patient")) === "provider"
+        ? [{ ...providerCta, variant: "solid" as const }]
+        : [patientCta]);
 
 const brand =
   lead === "practice"
     ? {
         mark: hpmaColour,
         name: "Dr H P Manyonga & Associates",
-        sub: "The Network One Health provider network",
+        // House of brands (HP 2026-09-01). Network One Health is a management
+        // company providing services to practices — this one, H P Manyonga Solo,
+        // and in future midwife and primary-care practices. The practice is the
+        // brand a patient is choosing; NOH is what stands behind it.
+        sub: "Powered by Network One Health",
         aria: "Dr H P Manyonga & Associates home",
       }
     : {
