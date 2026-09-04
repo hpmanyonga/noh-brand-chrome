@@ -52,18 +52,17 @@ const year = new Date().getFullYear();
 // practice is not itself the treating provider.
 const complianceLine = `Network One Health contracts and governs the clinical practices that deliver care at each site. Clinical oversight and accountability sit with Dr H P Manyonga & Associates Inc. (BHF practice number ${hpcsaPR ?? "0977357"}). All guidelines and tools remain the practice's property.`;
 
-// The two sites co-exist permanently, split the way the entities are split
-// (HP 2026-09-01): this apex is the regulated gynaecology practice, and
-// networkonehealth.co.za is the management company, where service lines other
-// than gynaecology and maternity will live. So each should point at the other.
-//
-// Briefly removed 2026-08-31 on a misreading that the management site was
-// mothballed. It is not. What is mothballed is networkonematernity.co.za, and
-// mothballing here means a permanent redirect, not switching a site off.
+// networkonehealth.co.za is being mothballed (HP 2026-09-04): a permanent
+// redirect to hpmanyonga.co.za, with the mailboxes on that domain left live.
+// So the .co.za footer no longer links to it. (This reverses the 2026-09-01
+// position that the two sites co-exist and point at each other; the 2026-09-04
+// site crawl for the Google Ads appeal found the old site still serving a full
+// duplicate maternity page from every footer on the estate.) The .com footer
+// still points readers to the ZA service site.
 const sister =
   domain === "com"
     ? { label: "Network One Health (SA)", href: "https://hpmanyonga.co.za" }
-    : { label: "Network One Health", href: "https://www.networkonehealth.co.za" };
+    : null;
 ---
 
 <footer class="noh-footer">
@@ -78,15 +77,11 @@ const sister =
           <a href="https://wa.me/27712242788">071 224 2788</a>
         </li>
       </ul>
-      {/* rel="nofollow" (HP 2026-09-01: "do not point to networkonehealth.co.za
-          from the google pages"). The link stays, because the two entities are
-          real and each should acknowledge the other. What it must not be is a
-          sitewide ranking vote: this is 50-odd dofollow links on every page of
-          the estate, aimed at the one domain we are moving the Google Business
-          Profile and the ads AWAY from. Keep the relationship, drop the signal. */}
-      <a class="noh-footer__sister" href={sister.href} rel="nofollow">
-        Also visit: <strong>{sister.label}</strong> →
-      </a>
+      {sister && (
+        <a class="noh-footer__sister" href={sister.href} rel="nofollow">
+          Also visit: <strong>{sister.label}</strong> →
+        </a>
+      )}
     </div>
   </div>
 
