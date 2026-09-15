@@ -140,11 +140,26 @@ const ogImageResolved =
       channel.
 
       The form has a single hidden field, `source`, so both facts travel in it
-      as "channel|placement". Downstream reads it as free text. With no ?src=
-      the link is left exactly as it was.
+      as "channel|placement". Downstream reads it as free text.
 
       Held for the session, so the channel survives a visitor browsing several
       pages before converting.
+
+      UNTAGGED VISITS (0.25.0). Tagging only ever covered links we made. A
+      visitor who found the site through Google search, an AI assistant or a
+      Facebook share arrived with no ?src= and no click id, so their lead
+      carried no channel at all: 36 of 46 website leads from 2026-08-25 to
+      2026-09-09, and organic search could not be counted. So a fresh arrival
+      now names its channel, in this order: ?src=, then utm_source, then a paid
+      click id ("google-ads"), then the referring host ("organic-google",
+      "ai-chatgpt", "social-facebook", "email-gmail", "referral-<host>"). No
+      referrer is "direct", recorded only on the first page of a visit so it
+      never overwrites a known channel. Moving between our own pages changes
+      nothing. The newest arrival wins, so a visitor who came from Pomelli and
+      later returns through an ad is credited to the ad.
+
+      The inline script ships to every page, comments included, so keep its
+      comments free of em dashes (0.24.0).
 
       GOOGLE ADS. A paid click arrives with gclid, or wbraid/gbraid where Google
       cannot set a cookie. Without capturing it, the conversion count in Google
@@ -161,20 +176,66 @@ const ogImageResolved =
         var clean = function (v, n) {
           return v ? String(v).slice(0, n).replace(/[^A-Za-z0-9_.-]/g, "") : "";
         };
+        // Storage can throw in private mode. Attribution then lasts one page
+        // instead of the visit, rather than not at all.
+        var get = function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+        var put = function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} };
+
+        // Referring host to channel. Order matters: Gmail and Gemini live on
+        // google domains but are not search.
+        var RULES = [
+          ["email-gmail", /^mail\.google\.com$|^com\.google\.android\.gm$/],
+          ["ai-gemini", /^gemini\.google\.com$/],
+          ["ai-chatgpt", /(^|\.)(chatgpt|openai)\.com$/],
+          ["ai-perplexity", /(^|\.)perplexity\.ai$/],
+          ["ai-claude", /(^|\.)claude\.ai$/],
+          ["ai-copilot", /^copilot\.microsoft\.com$/],
+          ["organic-google", /(^|\.)google\.[a-z.]+$|googlequicksearchbox/],
+          ["organic-bing", /(^|\.)bing\.com$/],
+          ["organic-duckduckgo", /(^|\.)duckduckgo\.com$/],
+          ["organic-yahoo", /(^|\.)yahoo\.com$/],
+          ["organic-ecosia", /(^|\.)ecosia\.org$/],
+          ["organic-brave", /^search\.brave\.com$/],
+          ["social-facebook", /(^|\.)(facebook|fb)\.com$/],
+          ["social-instagram", /(^|\.)instagram\.com$/],
+          ["social-linkedin", /(^|\.)linkedin\.com$|^lnkd\.in$/],
+          ["social-x", /^t\.co$|(^|\.)(x|twitter)\.com$/],
+          ["social-youtube", /(^|\.)youtube\.com$/],
+          ["social-tiktok", /(^|\.)tiktok\.com$/]
+        ];
+        // "" means one of our own pages; "direct" means no referrer at all.
+        var fromReferrer = function () {
+          var host;
+          try { host = new URL(document.referrer).hostname.toLowerCase(); } catch (e) { return "direct"; }
+          if (!host) return "direct";
+          var bare = function (h) { return h.replace(/^www\./, ""); };
+          if (bare(host) === bare(location.hostname.toLowerCase())) return "";
+          for (var i = 0; i < RULES.length; i++) {
+            if (RULES[i][1].test(host)) return RULES[i][0];
+          }
+          return "referral-" + host.replace(/^www\./, "");
+        };
+
         try {
           var qs = new URLSearchParams(location.search);
-
-          var q = clean(qs.get("src"), 64);
-          if (q) sessionStorage.setItem(KEY, q);
+          var stored = clean(get(KEY), 64);
 
           // gclid first; wbraid and gbraid are what Google sends when it cannot
           // set a cookie, and either still identifies the campaign.
           var cid = clean(qs.get("gclid") || qs.get("wbraid") || qs.get("gbraid"), 128);
-          if (cid) sessionStorage.setItem(CID, cid);
-          cid = cid || clean(sessionStorage.getItem(CID), 128);
+          if (cid) put(CID, cid);
 
-          // A paid click with no explicit ?src= is still a known channel.
-          var channel = q || clean(sessionStorage.getItem(KEY), 64) || (cid ? "google-ads" : "");
+          // A fresh arrival names its channel: explicit tag, then paid click,
+          // then the referring site.
+          var fresh = clean(qs.get("src"), 64) || clean(qs.get("utm_source"), 64) || (cid ? "google-ads" : "");
+          if (!fresh) {
+            fresh = clean(fromReferrer(), 64);
+            if (fresh === "direct" && stored) fresh = "";
+          }
+          if (fresh) put(KEY, fresh);
+
+          var channel = fresh || stored;
+          cid = cid || clean(get(CID), 128);
           if (!channel && !cid) return;
 
           document.querySelectorAll('a[href*="form.jotform.com"]').forEach(function (a) {
@@ -190,8 +251,7 @@ const ogImageResolved =
             a.href = u.toString();
           });
         } catch (e) {
-          /* sessionStorage can throw in private mode; attribution is never worth
-             breaking a page over. */
+          /* Attribution is never worth breaking a page over. */
         }
       })();
     </script>
