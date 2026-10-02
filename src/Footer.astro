@@ -3,8 +3,8 @@
  * NOH Footer (PDF B9).
  *
  * Standard footer = green strip, white text: info@networkonehealth.co.za and
- * WhatsApp 071 224 2788, the universal line that handles every centre
- * automatically (HP 2026-08-30). Never drop that number.
+ * the site's patient WhatsApp: 071 224 2788 by default (HP 2026-08-30), or the
+ * site's own number via PUBLIC_NOH_WHATSAPP (see waNumber below). Never drop it.
  *
  * Compliance footer line (only when `compliance` is true, i.e. on regulated
  * clinical content). Wording and its reasoning are at `complianceLine` below.
@@ -32,6 +32,14 @@ interface Props {
 }
 
 const { domain, compliance = false, hpcsaPR, links = [] } = Astro.props;
+
+// The patient WhatsApp in the strip. Defaults to 071 224 2788, the estate-wide
+// line; a site can set its own at build time with PUBLIC_NOH_WHATSAPP (digits,
+// e.g. 27650725315) and PUBLIC_NOH_WHATSAPP_DISPLAY (e.g. 065 072 5315).
+// Added 2026-10-02 for the NOMA trial on hpmanyonga.co.za; every other site
+// keeps 071 untouched because it sets nothing.
+const waNumber = import.meta.env.PUBLIC_NOH_WHATSAPP || "27712242788";
+const waDisplay = import.meta.env.PUBLIC_NOH_WHATSAPP_DISPLAY || "071 224 2788";
 
 const year = new Date().getFullYear();
 
@@ -80,7 +88,7 @@ const sister =
         </li>
         <li>
           <span class="noh-footer__label">WhatsApp:</span>
-          <a href="https://wa.me/27712242788">071 224 2788</a>
+          <a href={`https://wa.me/${waNumber}`}>{waDisplay}</a>
         </li>
       </ul>
       {/* Followed link (HP 2026-09-15: hpmanyonga.co.za and networkonehealth.co.za
