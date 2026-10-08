@@ -1,0 +1,15 @@
+# NOH POPIA scan (safety Control B). Copy to .github/workflows/popia-scan.yml.
+# The rules live in hpmanyonga/noh-agent-ops; this file only calls them.
+# Local hooks can be skipped with --no-verify; this job cannot.
+name: POPIA scan
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  popia-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: hpmanyonga/noh-agent-ops/.github/actions/popia-scan@main
